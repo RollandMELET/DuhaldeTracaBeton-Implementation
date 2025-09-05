@@ -1,0 +1,891 @@
+{
+  "_schema": {
+    "version": "1.0.0",
+    "type": "CompleteEnrichedProcess", 
+    "description": "Enriched JSON v3 process definition for ProcessToit - JSON-driven architecture with full business questions",
+    "created": "2025-09-04T10:30:00.000Z",
+    "author": "JSON-Driven Architecture System"
+  },
+  
+  "processId": "ProcessToit",
+  "processType": "ProcessToit",
+  "processName": "Process de Fabrication Toit Préfabriqué",
+  "processVersion": "3.0.0",
+  "name": "Process Toit - Questions Métier Complètes",
+  "description": "Processus complet de fabrication de toits préfabriqués avec questions métier détaillées et business logic avancée",
+  
+  "processConfig": {
+    "defaultRenderingStrategy": {
+      "responsive": {
+        "orientation": "landscape",
+        "targetResolution": "1280x800",
+        "minTouchTarget": 56,
+        "minFontSize": 18
+      },
+      "accessibility": {
+        "highContrast": false,
+        "largeFonts": true,
+        "hapticFeedback": true
+      }
+    },
+    "questionMode": "ok-ko",
+    "allowPartialValidation": false,
+    "requireSupervisorValidation": true
+  },
+  
+  "steps": [
+    {
+      "Etat": "Etape 1",
+      "EtatNom": "PC1 : Préparation et nettoyage du moule",
+      "Id_lisible_par_homme": "1001",
+      "TypeEtat": "PointControle",
+      "intro": "PRÉPARATION DU MOULE TOIT - NETTOYAGE ET VÉRIFICATIONS",
+      "description": "Contrôle de l'état du moule et préparation pour la fabrication du toit préfabriqué. Vérifications essentielles de propreté et d'intégrité structurelle.",
+      
+      "questions": [
+        {
+          "ok": "Le moule est-il propre et exempt de résidus de béton précédent ?",
+          "ko": "⚠️ Nettoyer le moule avec le nettoyeur haute pression et enlever tous résidus avec spatule et brosse métallique"
+        },
+        {
+          "ok": "Les joints d'étanchéité sont-ils en bon état et correctement positionnés ?",
+          "ko": "⚠️ Remplacer ou repositionner les joints défectueux - Vérifier l'étanchéité sur tout le périmètre"
+        },
+        {
+          "ok": "Le système d'ouverture/fermeture du moule fonctionne-t-il correctement ?",
+          "ko": "⚠️ Graisser les charnières et vérifier le bon fonctionnement - Appeler la maintenance si nécessaire"
+        },
+        {
+          "ok": "Les parois du moule sont-elles exemptes de fissures ou déformations ?",
+          "ko": "⚠️ Réparer ou signaler les défauts structurels - Ne pas utiliser le moule si défaut majeur"
+        },
+        {
+          "ok": "L'huile de démoulage est-elle disponible et de qualité appropriée ?",
+          "ko": "⚠️ Se procurer l'huile de démoulage spécifiée - Vérifier la date de péremption"
+        }
+      ],
+      
+      "CaptureSystem": {
+        "Utilisateur": "",
+        "Date": "",
+        "Time": "",
+        "MouleId": "",
+        "PhotoVerification": false
+      },
+      
+      "ActionSystem": {
+        "Notification URRATS": "",
+        "QualityAlert": false,
+        "AutoValidation": false
+      },
+      
+      "businessRules": {
+        "rules": [
+          {
+            "id": "preparation_moule_toit_complete",
+            "name": "Préparation Moule Toit Complète",
+            "condition": "all_questions_ok",
+            "onSuccess": "navigate_to_step_1002",
+            "onFailure": "require_correction_and_recheck"
+          }
+        ]
+      },
+      
+      "rebutTriggers": [
+        "moule_structurellement_defaillant",
+        "joints_impossibles_a_reparer", 
+        "systeme_ouverture_bloque"
+      ],
+      
+      "metadata": {
+        "step": 1,
+        "totalSteps": 12,
+        "estimatedDuration": "15-20 minutes",
+        "requiredTools": ["nettoyeur haute pression", "spatule", "brosse métallique", "huile démoulage"],
+        "safetyRequirements": ["EPI complet", "chaussures sécurité"],
+        "qualityLevel": "STANDARD"
+      }
+    },
+    
+    {
+      "Etat": "Etape 2", 
+      "EtatNom": "PC2 : Vérification et placement des armatures",
+      "Id_lisible_par_homme": "1002",
+      "TypeEtat": "PointControle", 
+      "intro": "CONTRÔLE DU FERRAILLAGE - ARMATURES PRINCIPALES ET SECONDAIRES",
+      "description": "Vérification de la conformité des armatures selon le plan de ferraillage. Contrôle dimensionnel et positionnel des aciers.",
+      
+      "questions": [
+        {
+          "ok": "Les armatures principales correspondent-elles au plan de ferraillage (diamètre et quantité) ?",
+          "ko": "⚠️ Vérifier le plan de ferraillage - Remplacer les armatures non conformes par les bonnes dimensions"
+        },
+        {
+          "ok": "L'espacement entre les barres respecte-t-il les spécifications (15cm minimum) ?", 
+          "ko": "⚠️ Repositionner les barres pour respecter l'espacement minimum de 15cm entre axes"
+        },
+        {
+          "ok": "Les cales d'enrobage sont-elles positionnées selon le plan (enrobage 3cm minimum) ?",
+          "ko": "⚠️ Ajouter ou repositionner les cales pour garantir un enrobage minimum de 3cm"
+        },
+        {
+          "ok": "Les armatures sont-elles exemptes de rouille excessive ou souillures ?",
+          "ko": "⚠️ Nettoyer les armatures à la brosse métallique - Remplacer si rouille excessive"
+        },
+        {
+          "ok": "Les points de ligature sont-ils suffisants et correctement réalisés ?",
+          "ko": "⚠️ Ajouter des points de ligature - Utiliser fil de fer galvanisé et serrer correctement"
+        },
+        {
+          "ok": "Les armatures de répartition sont-elles présentes et correctement positionnées ?",
+          "ko": "⚠️ Ajouter les armatures de répartition manquantes selon le plan de ferraillage"
+        }
+      ],
+      
+      "CaptureSystem": {
+        "Utilisateur": "",
+        "Date": "",
+        "Time": "",
+        "PhotoFerraillage": true,
+        "ControleurQualite": ""
+      },
+      
+      "ActionSystem": {
+        "Notification URRATS": "",
+        "QualityAlert": false,
+        "DocumentationPhoto": true
+      },
+      
+      "businessRules": {
+        "rules": [
+          {
+            "id": "ferraillage_conforme_toit",
+            "name": "Ferraillage Conforme Toit",
+            "condition": "all_questions_ok",
+            "onSuccess": "navigate_to_step_1003", 
+            "onFailure": "quality_alert_ferraillage"
+          }
+        ]
+      },
+      
+      "rebutTriggers": [
+        "armatures_diametre_incorrect",
+        "enrobage_insuffisant_critique",
+        "armatures_trop_rouillees"
+      ],
+      
+      "metadata": {
+        "step": 2,
+        "totalSteps": 12,
+        "estimatedDuration": "25-30 minutes",
+        "requiredTools": ["mètre", "cales enrobage", "fil fer galvanisé", "brosse métallique"],
+        "qualityLevel": "CRITIQUE",
+        "photoRequired": true
+      }
+    },
+
+    {
+      "Etat": "Etape 3",
+      "EtatNom": "PA1 : Validation superviseur armatures", 
+      "Id_lisible_par_homme": "1003",
+      "TypeEtat": "PointArret",
+      "intro": "POINT D'ARRÊT OBLIGATOIRE - Validation superviseur avant coulage",
+      "description": "Contrôle superviseur obligatoire de la conformité du ferraillage avant autorisation de coulage du béton. Point critique qualité.",
+      
+      "supervisorValidation": {
+        "required": true,
+        "minRole": "SUPERVISEUR",
+        "checklistItems": [
+          "Plan de ferraillage conforme",
+          "Diamètres et espacements corrects", 
+          "Enrobage garanti",
+          "Photo du ferraillage prise"
+        ]
+      },
+      
+      "instructions": "POINT D'ARRÊT OBLIGATOIRE - Le superviseur doit valider le ferraillage avant coulage du béton.",
+      
+      "pointsAValider": [
+        "✓ Plan de ferraillage conforme",
+        "✓ Diamètres et espacements corrects",
+        "✓ Enrobage garanti", 
+        "✓ Enrobage garanti",
+        "✓ Photo du ferraillage prise"
+      ],
+      
+      "CaptureSystem": {
+        "Utilisateur": "",
+        "Date": "", 
+        "Time": "",
+        "SuperviseurValidation": true,
+        "SuperviseurId": "",
+        "PhotoValidation": true
+      },
+      
+      "ActionSystem": {
+        "Notification URRATS": "",
+        "SupervisorAlert": true,
+        "QualityGate": true
+      },
+      
+      "businessRules": {
+        "rules": [
+          {
+            "id": "supervisor_validation_required_toit",
+            "name": "Validation Superviseur Requise Toit",
+            "condition": "supervisor_authenticated_and_validated",
+            "onSuccess": "navigate_to_step_1004",
+            "onFailure": "block_process_until_validation"
+          }
+        ],
+        "transitions": {
+          "onValidated": "1004",
+          "onRejected": "1002"
+        }
+      },
+      
+      "metadata": {
+        "step": 3,
+        "totalSteps": 12,
+        "estimatedDuration": "5-10 minutes",
+        "criticalPoint": true,
+        "supervisorRequired": true,
+        "qualityLevel": "CRITIQUE"
+      }
+    },
+
+    {
+      "Etat": "Etape 4",
+      "EtatNom": "PC3 : Placement des inserts et douilles",
+      "Id_lisible_par_homme": "1004", 
+      "TypeEtat": "PointControle",
+      "intro": "INSERTION DES ÉLÉMENTS SPÉCIALISÉS TOIT",
+      "description": "Placement précis des inserts de levage, douilles et éléments spécialisés selon plan technique toit.",
+      
+      "questions": [
+        {
+          "ok": "Les 4 douilles de levage Ø16 INOX sont-elles présentes et positionnées selon plan ?",
+          "ko": "⚠️ Vérifier le plan technique - Positionner les 4 douilles Ø16 INOX aux emplacements exacts"
+        },
+        {
+          "ok": "Les douilles sont-elles perpendiculaires à la surface et à la bonne profondeur ?",
+          "ko": "⚠️ Repositionner les douilles - Vérifier perpendicularité avec niveau et profondeur selon cote"
+        },
+        {
+          "ok": "Les 4 inserts de fixation Ø12 sont-ils placés et orientés correctement ?",
+          "ko": "⚠️ Repositionner les inserts Ø12 selon plan - Vérifier orientation et espacement"
+        },
+        {
+          "ok": "Les renforts autour des douilles sont-ils en place et fixés ?", 
+          "ko": "⚠️ Installer les renforts métalliques autour des douilles - Fixer par ligature"
+        },
+        {
+          "ok": "L'huile de démoulage a-t-elle été appliquée uniformément sur toutes les surfaces ?",
+          "ko": "⚠️ Appliquer l'huile de démoulage uniformément - Éviter les coulures et zones non couvertes"
+        },
+        {
+          "ok": "Tous les éléments sont-ils stables et ne risquent-ils pas de bouger au coulage ?",
+          "ko": "⚠️ Vérifier et renforcer la fixation de tous les éléments - Tester la stabilité manuellement"
+        }
+      ],
+      
+      "CaptureSystem": {
+        "Utilisateur": "",
+        "Date": "",
+        "Time": "",
+        "PhotoInserts": true,
+        "MesuresPrecises": true
+      },
+      
+      "ActionSystem": {
+        "Notification URRATS": "",
+        "QualityAlert": false,
+        "ValidationTechnique": true
+      },
+      
+      "businessRules": {
+        "rules": [
+          {
+            "id": "inserts_conformes_toit",
+            "name": "Inserts et Douilles Conformes Toit", 
+            "condition": "all_questions_ok",
+            "onSuccess": "navigate_to_step_1005",
+            "onFailure": "correction_required"
+          }
+        ]
+      },
+      
+      "rebutTriggers": [
+        "douilles_mal_positionnees",
+        "inserts_diametre_incorrect",
+        "instabilite_elements"
+      ],
+      
+      "metadata": {
+        "step": 4,
+        "totalSteps": 12,
+        "estimatedDuration": "20-25 minutes",
+        "requiredTools": ["niveau", "mètre", "inserts Ø12", "douilles Ø16 INOX", "huile démoulage"],
+        "qualityLevel": "CRITIQUE",
+        "measurementsRequired": true
+      }
+    },
+
+    {
+      "Etat": "Etape 5",
+      "EtatNom": "PC4 : Contrôle avant coulage",
+      "Id_lisible_par_homme": "1005",
+      "TypeEtat": "PointControle",
+      "intro": "CONTRÔLES FINAUX AVANT COULAGE DU BÉTON",
+      "description": "Dernière vérification générale avant autorisation de coulage. Contrôle de l'ensemble des éléments.",
+      
+      "questions": [
+        {
+          "ok": "Le moule est-il parfaitement fermé et étanche ?",
+          "ko": "⚠️ Vérifier la fermeture complète du moule - Contrôler l'étanchéité sur tout le périmètre"
+        },
+        {
+          "ok": "Tous les éléments sont-ils à leur place définitive (armatures, inserts, douilles) ?",
+          "ko": "⚠️ Vérifier le positionnement final de tous les éléments - Reprendre le contrôle si nécessaire"
+        },
+        {
+          "ok": "L'aire de coulage est-elle dégagée et sécurisée ?",
+          "ko": "⚠️ Dégager la zone de coulage - Sécuriser l'accès et mettre en place signalisation"
+        },
+        {
+          "ok": "Le béton commandé correspond-il aux spécifications (classe, slump) ?",
+          "ko": "⚠️ Vérifier le bon de commande béton - Contacter le fournisseur si non-conformité"
+        },
+        {
+          "ok": "L'équipe de coulage est-elle présente et équipée ?", 
+          "ko": "⚠️ S'assurer de la présence de l'équipe complète - Vérifier équipements de coulage"
+        }
+      ],
+      
+      "CaptureSystem": {
+        "Utilisateur": "",
+        "Date": "",
+        "Time": "",
+        "HeurePreparationCoulage": "",
+        "EquipeCoulage": ""
+      },
+      
+      "ActionSystem": {
+        "Notification URRATS": "",
+        "AlerteCoulage": true,
+        "AutorisationCoulage": false
+      },
+      
+      "businessRules": {
+        "rules": [
+          {
+            "id": "pret_pour_coulage_toit",
+            "name": "Prêt pour Coulage Toit",
+            "condition": "all_questions_ok",
+            "onSuccess": "navigate_to_step_1006",
+            "onFailure": "stop_process_until_correction"
+          }
+        ]
+      },
+      
+      "metadata": {
+        "step": 5,
+        "totalSteps": 12,
+        "estimatedDuration": "10-15 minutes",
+        "criticalPoint": true,
+        "qualityLevel": "CRITIQUE"
+      }
+    },
+
+    {
+      "Etat": "Etape 6",
+      "EtatNom": "PC5 : Coulage et vibration",
+      "Id_lisible_par_homme": "1006",
+      "TypeEtat": "PointControle",
+      "intro": "COULAGE DU BÉTON ET VIBRATION",
+      "description": "Exécution du coulage du béton avec vibration appropriée pour assurer la qualité du toit préfabriqué.",
+      
+      "questions": [
+        {
+          "ok": "Le coulage s'effectue-t-il de manière régulière et continue ?",
+          "ko": "⚠️ Arrêter le coulage si problème - Vérifier l'approvisionnement béton et reprendre"
+        },
+        {
+          "ok": "La vibration est-elle appliquée correctement (durée et intensité) ?",
+          "ko": "⚠️ Ajuster la vibration - 15-20 secondes par point, ne pas survibrer"
+        },
+        {
+          "ok": "Le niveau de béton atteint-il la hauteur spécifiée ?",
+          "ko": "⚠️ Vérifier le niveau avec règle - Ajouter béton si insuffisant"
+        },
+        {
+          "ok": "Aucun déplacement des inserts ou armatures n'est constaté ?",
+          "ko": "⚠️ ARRÊTER le coulage - Repositionner les éléments déplacés avant de continuer"
+        },
+        {
+          "ok": "La surface est-elle correctement finie (talochage) ?",
+          "ko": "⚠️ Reprendre le talochage - Égaliser la surface avec règle et taloche"
+        }
+      ],
+      
+      "CaptureSystem": {
+        "Utilisateur": "",
+        "Date": "",
+        "Time": "",
+        "HeureCoulage": "",
+        "FournisseurBeton": "",
+        "ClasseBeton": ""
+      },
+      
+      "ActionSystem": {
+        "Notification URRATS": "",
+        "TracabiliteCoulage": true
+      },
+      
+      "businessRules": {
+        "rules": [
+          {
+            "id": "coulage_correct_toit",
+            "name": "Coulage Correct Toit",
+            "condition": "all_questions_ok", 
+            "onSuccess": "navigate_to_step_1007",
+            "onFailure": "quality_alert_coulage"
+          }
+        ]
+      },
+      
+      "rebutTriggers": [
+        "deplacement_armatures",
+        "niveau_beton_insuffisant",
+        "probleme_vibration_majeur"
+      ],
+      
+      "metadata": {
+        "step": 6,
+        "totalSteps": 12,
+        "estimatedDuration": "30-45 minutes",
+        "qualityLevel": "CRITIQUE",
+        "traceabilityRequired": true
+      }
+    },
+
+    {
+      "Etat": "Etape 7",
+      "EtatNom": "PC6 : Contrôle après coulage",
+      "Id_lisible_par_homme": "1007", 
+      "TypeEtat": "PointControle",
+      "intro": "CONTRÔLE IMMÉDIAT POST-COULAGE",
+      "description": "Vérifications immédiates après coulage pour détecter d'éventuels défauts ou problèmes.",
+      
+      "questions": [
+        {
+          "ok": "La surface du béton est-elle homogène et sans défaut apparent ?",
+          "ko": "⚠️ Signaler les défauts de surface - Évaluer la possibilité de correction"
+        },
+        {
+          "ok": "Aucun suintement ou fuite n'est-il visible au niveau des joints ?",
+          "ko": "⚠️ Localiser et colmater les fuites mineures - Alerter si fuite importante"
+        },
+        {
+          "ok": "Les inserts et douilles sont-ils toujours correctement positionnés ?",
+          "ko": "⚠️ CRITIQUE : Évaluer l'ampleur du déplacement - Décision superviseur nécessaire"
+        },
+        {
+          "ok": "Aucune ségrégation du béton n'est-elle visible en surface ?",
+          "ko": "⚠️ Signaler la ségrégation - Évaluer l'impact sur la résistance finale"
+        }
+      ],
+      
+      "CaptureSystem": {
+        "Utilisateur": "",
+        "Date": "",
+        "Time": "",
+        "PhotoPostCoulage": true,
+        "DefautsNotes": ""
+      },
+      
+      "ActionSystem": {
+        "Notification URRATS": "",
+        "QualityAlert": false,
+        "DefautTracking": true
+      },
+      
+      "businessRules": {
+        "rules": [
+          {
+            "id": "post_coulage_ok_toit",
+            "name": "Post-Coulage OK Toit",
+            "condition": "all_questions_ok",
+            "onSuccess": "navigate_to_step_1008",
+            "onFailure": "evaluation_defauts_required"
+          }
+        ]
+      },
+      
+      "rebutTriggers": [
+        "deplacement_critique_inserts",
+        "segregation_importante",
+        "fuite_majeure_beton"
+      ],
+      
+      "metadata": {
+        "step": 7,
+        "totalSteps": 12,
+        "estimatedDuration": "10-15 minutes",
+        "photoRequired": true,
+        "qualityLevel": "IMPORTANT"
+      }
+    },
+
+    {
+      "Etat": "Etape 8",
+      "EtatNom": "PA2 : Validation avant cure",
+      "Id_lisible_par_homme": "1008",
+      "TypeEtat": "PointArret",
+      "intro": "DÉCISION SUPERVISEUR - Qualification de la pièce coulée",
+      "description": "Évaluation superviseur de la qualité de la pièce coulée. Décision GO/NO-GO pour la suite du processus.",
+      
+      "supervisorValidation": {
+        "required": true,
+        "minRole": "SUPERVISEUR",
+        "decisionRequired": true,
+        "options": ["CONFORME", "REBUT"]
+      },
+      
+      "instructions": "POINT D'ARRÊT OBLIGATOIRE - Le superviseur doit évaluer la qualité de la pièce coulée avant cure.",
+      
+      "pointsAValider": [
+        "✓ Qualité générale du coulage",
+        "✓ Positionnement des inserts et douilles",
+        "✓ Absence de défauts critiques",
+        "✓ Conformité aux spécifications"
+      ],
+      
+      "CaptureSystem": {
+        "Utilisateur": "",
+        "Date": "",
+        "Time": "",
+        "SuperviseurDecision": "",
+        "MotifRebut": "",
+        "PhotoValidation": true
+      },
+      
+      "ActionSystem": {
+        "Notification URRATS": "",
+        "DecisionTracking": true,
+        "QualityGate": true
+      },
+      
+      "businessRules": {
+        "rules": [
+          {
+            "id": "decision_pa2_toit",
+            "name": "Décision PA2 Toit",
+            "condition": "supervisor_decision_made",
+            "onConformeDecision": "navigate_to_step_1009",
+            "onRebutDecision": "navigate_to_rebut_999"
+          }
+        ]
+      },
+      
+      "metadata": {
+        "step": 8,
+        "totalSteps": 12,
+        "estimatedDuration": "10-15 minutes",
+        "criticalPoint": true,
+        "supervisorRequired": true,
+        "qualityLevel": "CRITIQUE"
+      }
+    },
+
+    {
+      "Etat": "Etape 9",
+      "EtatNom": "PC7 : Cure et surveillance",
+      "Id_lisible_par_homme": "1009",
+      "TypeEtat": "PointControle",
+      "intro": "MISE EN CURE ET SURVEILLANCE",
+      "description": "Organisation de la cure du béton selon les conditions spécifiées. Surveillance des premières heures.",
+      
+      "questions": [
+        {
+          "ok": "Les conditions de cure sont-elles mises en place (bâchage, arrosage, etc.) ?",
+          "ko": "⚠️ Mettre en place le dispositif de cure - Bâcher ou arroser selon procédure"
+        },
+        {
+          "ok": "La température ambiante est-elle dans la plage acceptable (5°C à 35°C) ?",
+          "ko": "⚠️ Vérifier température - Prévoir protection si hors plage (chauffage/ventilation)"
+        },
+        {
+          "ok": "L'aire de stockage est-elle protégée des intempéries ?",
+          "ko": "⚠️ Installer protection contre pluie/gel - Prévoir couverture étanche"
+        },
+        {
+          "ok": "Le planning de démoulage est-il défini et communiqué ?",
+          "ko": "⚠️ Établir planning démoulage - Informer équipe et plannifier ressources"
+        }
+      ],
+      
+      "CaptureSystem": {
+        "Utilisateur": "",
+        "Date": "",
+        "Time": "",
+        "TemperatureAmbiante": "",
+        "TypeCure": "",
+        "PlanningDemoulage": ""
+      },
+      
+      "ActionSystem": {
+        "Notification URRATS": "",
+        "PlanificationDemoulage": true
+      },
+      
+      "businessRules": {
+        "rules": [
+          {
+            "id": "cure_organisee_toit",
+            "name": "Cure Organisée Toit",
+            "condition": "all_questions_ok",
+            "onSuccess": "navigate_to_step_1010",
+            "onFailure": "reorganiser_cure"
+          }
+        ]
+      },
+      
+      "metadata": {
+        "step": 9,
+        "totalSteps": 12,
+        "estimatedDuration": "15-20 minutes",
+        "qualityLevel": "IMPORTANT"
+      }
+    },
+
+    {
+      "Etat": "Etape 10", 
+      "EtatNom": "PC8 : Démoulage et inspection",
+      "Id_lisible_par_homme": "1010",
+      "TypeEtat": "PointControle",
+      "intro": "DÉMOULAGE ET INSPECTION FINALE",
+      "description": "Démoulage de la pièce et inspection complète avant mise à disposition. Contrôles dimensionnels et qualitatifs.",
+      
+      "questions": [
+        {
+          "ok": "Le démoulage s'est-il effectué sans endommager la pièce ?",
+          "ko": "⚠️ Inspecter les dommages - Évaluer réparabilité et décider suite à donner"
+        },
+        {
+          "ok": "Les dimensions de la pièce sont-elles conformes au plan (longueur, largeur, épaisseur) ?",
+          "ko": "⚠️ Mesurer précisément - Vérifier tolérances et décider acceptabilité"
+        },
+        {
+          "ok": "Les inserts et douilles sont-ils à leur position définitive et utilisables ?",
+          "ko": "⚠️ Vérifier alignement et accessibilité - Tester mécaniquement si possible"
+        },
+        {
+          "ok": "La surface est-elle conforme aux spécifications d'aspect ?",
+          "ko": "⚠️ Noter défauts d'aspect - Évaluer impact esthétique et fonctionnel"
+        },
+        {
+          "ok": "Aucune fissure ou défaut structurel n'est-il visible ?",
+          "ko": "⚠️ CRITIQUE : Mesurer et photographier fissures - Évaluation technique obligatoire"
+        }
+      ],
+      
+      "CaptureSystem": {
+        "Utilisateur": "",
+        "Date": "",
+        "Time": "",
+        "MesuresDimensionnelles": true,
+        "PhotoFinale": true,
+        "DefautsRepertories": ""
+      },
+      
+      "ActionSystem": {
+        "Notification URRATS": "",
+        "InspectionFinale": true,
+        "RapportQualite": true
+      },
+      
+      "businessRules": {
+        "rules": [
+          {
+            "id": "piece_conforme_toit",
+            "name": "Pièce Conforme Toit",
+            "condition": "all_questions_ok",
+            "onSuccess": "navigate_to_step_1011",
+            "onFailure": "evaluation_conformite_required"
+          }
+        ]
+      },
+      
+      "rebutTriggers": [
+        "fissures_structurelles",
+        "dimensions_hors_tolerance",
+        "inserts_inutilisables"
+      ],
+      
+      "metadata": {
+        "step": 10,
+        "totalSteps": 12,
+        "estimatedDuration": "20-30 minutes",
+        "measurementsRequired": true,
+        "photoRequired": true,
+        "qualityLevel": "CRITIQUE"
+      }
+    },
+
+    {
+      "Etat": "Etape 11",
+      "EtatNom": "PA3 : Validation finale superviseur",
+      "Id_lisible_par_homme": "1011",
+      "TypeEtat": "PointArret",
+      "intro": "VALIDATION FINALE - Acceptation pour livraison",
+      "description": "Validation finale superviseur pour acceptation définitive de la pièce et autorisation de livraison.",
+      
+      "supervisorValidation": {
+        "required": true,
+        "minRole": "SUPERVISEUR",
+        "finalValidation": true,
+        "options": ["ACCEPTER", "REBUT"]
+      },
+      
+      "instructions": "VALIDATION FINALE - Le superviseur doit donner l'autorisation définitive de livraison.",
+      
+      "pointsAValider": [
+        "✓ Conformité dimensionnelle",
+        "✓ Qualité des finitions",
+        "✓ Fonctionnalité des inserts",
+        "✓ Traçabilité complète",
+        "✓ Photos et documentation"
+      ],
+      
+      "CaptureSystem": {
+        "Utilisateur": "",
+        "Date": "",
+        "Time": "",
+        "SuperviseurFinal": "",
+        "DecisionFinale": "",
+        "CertificationQualite": true
+      },
+      
+      "ActionSystem": {
+        "Notification URRATS": "",
+        "CertificationFinale": true,
+        "MiseADisposition": false
+      },
+      
+      "businessRules": {
+        "rules": [
+          {
+            "id": "validation_finale_toit",
+            "name": "Validation Finale Toit",
+            "condition": "supervisor_final_validation",
+            "onAcceptDecision": "navigate_to_step_1012",
+            "onRebutDecision": "navigate_to_rebut_999"
+          }
+        ]
+      },
+      
+      "metadata": {
+        "step": 11,
+        "totalSteps": 12,
+        "estimatedDuration": "10-15 minutes",
+        "criticalPoint": true,
+        "supervisorRequired": true,
+        "finalValidation": true,
+        "qualityLevel": "CRITIQUE"
+      }
+    },
+
+    {
+      "Etat": "Etape 12",
+      "EtatNom": "FINAL : Mise à disposition et traçabilité",
+      "Id_lisible_par_homme": "1012",
+      "TypeEtat": "Final",
+      "intro": "PROCESSUS TERMINÉ - PIÈCE ACCEPTÉE",
+      "description": "Finalisation du processus avec mise à disposition de la pièce et clôture de la traçabilité.",
+      
+      "questions": [
+        {
+          "ok": "L'étiquetage de la pièce est-il complet et lisible ?",
+          "ko": "⚠️ Compléter l'étiquetage - Numéro pièce, date, caractéristiques, QR code"
+        },
+        {
+          "ok": "La pièce est-elle stockée dans la zone appropriée ?",
+          "ko": "⚠️ Déplacer vers zone de stockage finale - Respecter consignes manutention"
+        },
+        {
+          "ok": "La documentation qualité est-elle complète et archivée ?",
+          "ko": "⚠️ Compléter dossier qualité - Scanner et archiver tous documents"
+        },
+        {
+          "ok": "La mise à disposition client est-elle programmée ?",
+          "ko": "⚠️ Planifier livraison - Informer service commercial et logistique"
+        }
+      ],
+      
+      "CaptureSystem": {
+        "Utilisateur": "",
+        "Date": "",
+        "Time": "",
+        "NumeroSerie": "",
+        "ZoneStockage": "",
+        "DateMiseADisposition": ""
+      },
+      
+      "ActionSystem": {
+        "Notification URRATS": "",
+        "ProcessusComplete": true,
+        "ArchivageDocuments": true
+      },
+      
+      "businessRules": {
+        "rules": [
+          {
+            "id": "processus_complet_toit",
+            "name": "Processus Complet Toit",
+            "condition": "all_questions_ok",
+            "onSuccess": "process_completed_successfully",
+            "onFailure": "finalisation_incomplete"
+          }
+        ]
+      },
+      
+      "metadata": {
+        "step": 12,
+        "totalSteps": 12,
+        "estimatedDuration": "15-20 minutes",
+        "finalStep": true,
+        "qualityLevel": "STANDARD"
+      }
+    }
+  ],
+  
+  "metadata": {
+    "version": "3.0.0",
+    "createdAt": "2025-09-04T10:30:00.000Z",
+    "updatedAt": "2025-09-04T10:30:00.000Z",
+    "author": "JSON-Driven Architecture System",
+    "description": "ProcessToit v3 enrichi - Questions métier complètes pour fabrication toit préfabriqué",
+    "tags": ["process-toit", "enriched-json", "json-driven-architecture", "industrial", "v3"],
+    "targetIndustry": "concrete_manufacturing",
+    "targetEnvironment": "workshop", 
+    "targetDevice": "tablet_landscape",
+    "qualityStandards": ["ISO9001", "URRATS"],
+    "certifications": ["Duhalde_Quality_Process_v3"],
+    "auditTrail": true,
+    "processSpecifics": {
+      "mouleType": "MouleToit",
+      "specialFeatures": [
+        "4 douilles levage Ø16 INOX",
+        "4 inserts fixation Ø12", 
+        "Cure spécialisée toit",
+        "Contrôle dimensionnel strict",
+        "3 points arrêt superviseur"
+      ],
+      "criticalControlPoints": ["PC2", "PA1", "PC6", "PA2", "PC8", "PA3"],
+      "estimatedTotalDuration": "3-4 heures",
+      "urratsIntegration": true,
+      "qualityLevel": "PREMIUM"
+    }
+  }
+}

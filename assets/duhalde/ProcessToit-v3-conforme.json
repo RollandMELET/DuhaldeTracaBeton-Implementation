@@ -1,0 +1,479 @@
+{
+    "TypeObjet": "MouleToit",
+    "Ref": "V3 Enriched du 04/09/2025 - Version Conforme avec Questions Métier Spécialisées Toit",
+    "CaptureSystem": {
+        "ID-PIECE": "",
+        "ID-MOULE": ""
+    },
+    "ProcessSteps": [
+        {
+            "Etat": "Etape 1",
+            "EtatNom": "PC1 : PRÉPARATION ET NETTOYAGE DU MOULE",
+            "Id_lisible_par_homme": "2001",
+            "TypeEtat": "PointControle",
+            "intro": "Vérification complète du moule toit avant coulage. Attention aux spécialisations toit.",
+            "questions": [
+                {
+                    "ok": "Le moule est-il propre et exempt de résidus de béton précédent ?",
+                    "ko": "⚠️ Nettoyer le moule avec le nettoyeur haute pression et brosser les zones difficiles"
+                },
+                {
+                    "ok": "Les dimensions du moule toit correspondent-elles au bon de commande ?",
+                    "ko": "❌ STOP - Vérifier le bon de commande avec le superviseur"
+                },
+                {
+                    "ok": "Les joints d'étanchéité sont-ils en bon état pour les formes toit ?",
+                    "ko": "🔧 Remplacer les joints défectueux avant de continuer"
+                },
+                {
+                    "ok": "Les éléments spécifiques toit (pentes, évacuations) sont-ils vérifiés ?",
+                    "ko": "🔧 Contrôler les éléments de pente et d'évacuation des eaux"
+                },
+                {
+                    "ok": "L'agent de démoulage a-t-il été appliqué uniformément sur toutes surfaces ?",
+                    "ko": "➕ Appliquer l'agent de démoulage sur toutes les surfaces du moule toit"
+                }
+            ],
+            "CaptureSystem": {
+                "Utilisateur": "",
+                "Date": "",
+                "Time": "",
+                "Validation": "all_ok_required",
+                "MinOK": 5
+            },
+            "ActionSystem": {
+                "Notification URRATS": "dimensions_non_conformes_toit"
+            }
+        },
+        {
+            "Etat": "Etape 2",
+            "EtatNom": "PC2 : VÉRIFICATION ACIER ET INSERTS TOIT",
+            "Id_lisible_par_homme": "2002",
+            "TypeEtat": "PointControle",
+            "intro": "Contrôle spécialisé du ferraillage toit et positionnement des inserts spécifiques",
+            "questions": [
+                {
+                    "ok": "Le ferraillage correspond-il au plan spécifique toit ?",
+                    "ko": "❌ REBUT POTENTIEL - Plan toit différent des dalles, vérifier avec le chef"
+                },
+                {
+                    "ok": "Les 4 douilles de levage Ø16 INOX sont-elles positionnées selon plan ?",
+                    "ko": "🔗 Repositionner les douilles de levage Ø16 INOX aux emplacements marqués"
+                },
+                {
+                    "ok": "Les 4 inserts de fixation Ø12 sont-ils correctement implantés ?",
+                    "ko": "🔩 Vérifier la position des inserts de fixation Ø12"
+                },
+                {
+                    "ok": "L'espacement des armatures respecte-t-il le plan toit ?",
+                    "ko": "🔧 Repositionner selon le plan spécifique toit"
+                },
+                {
+                    "ok": "Les cales d'enrobage (3cm min) sont-elles en place ?",
+                    "ko": "➕ Ajouter des cales pour garantir l'enrobage selon plan toit"
+                },
+                {
+                    "ok": "Les armatures sont-elles propres et sans rouille excessive ?",
+                    "ko": "🧹 Brosser les armatures rouillées ou les remplacer"
+                }
+            ],
+            "CaptureSystem": {
+                "Utilisateur": "",
+                "Date": "",
+                "Time": "",
+                "CriticalQuestions": [0, 1, 2],
+                "PhotoRequired": "ferraillage_toit_avec_inserts",
+                "SpecializedInserts": ["douilles_levage_16_inox", "inserts_fixation_12"]
+            },
+            "ActionSystem": {
+                "Notification URRATS": "ferraillage_toit_incorrect"
+            }
+        },
+        {
+            "Etat": "Etape 3",
+            "EtatNom": "PA1 : VALIDATION SUPERVISEUR ARMATURES TOIT",
+            "Id_lisible_par_homme": "2003",
+            "TypeEtat": "PointArret",
+            "intro": "POINT D'ARRÊT OBLIGATOIRE - Validation spécialisée toit avec inserts",
+            "questions": [],
+            "SupervisorValidation": {
+                "Required": true,
+                "MinimumRole": "SUPERVISEUR",
+                "ValidationItems": [
+                    "Plan de ferraillage toit conforme",
+                    "4 douilles levage Ø16 INOX correctement positionnées",
+                    "4 inserts fixation Ø12 implantés selon plan",
+                    "Enrobage garanti sur toute la surface",
+                    "Photo du ferraillage toit prise"
+                ]
+            },
+            "CaptureSystem": {
+                "Utilisateur": "SUPERVISEUR_REQUIRED",
+                "Date": "",
+                "Time": "",
+                "PhotoEvidence": true,
+                "DocumentEvidence": true,
+                "SpecializedValidation": "toit_avec_inserts"
+            },
+            "ActionSystem": {
+                "Notification URRATS": "validation_superviseur_toit_required"
+            }
+        },
+        {
+            "Etat": "Etape 4",
+            "EtatNom": "PC3 : CONTRÔLE BÉTON AVANT COULAGE TOIT",
+            "Id_lisible_par_homme": "2004",
+            "TypeEtat": "PointControle",
+            "intro": "Vérification béton adapté aux spécifications toit (pentes, évacuations)",
+            "questions": [
+                {
+                    "ok": "Le béton correspond-il aux spécs toit (C25/30, XC2, S3) ?",
+                    "ko": "❌ STOP - Béton toit peut avoir specs différentes, vérifier"
+                },
+                {
+                    "ok": "L'étalement est-il adapté au coulage en pente (12-17cm) ?",
+                    "ko": "💧 Ajuster pour coulage toit avec pentes"
+                },
+                {
+                    "ok": "La température du béton est-elle entre 5°C et 30°C ?",
+                    "ko": "🌡️ Attendre ou traiter thermiquement le béton"
+                },
+                {
+                    "ok": "Le temps de transport est-il < 90 minutes ?",
+                    "ko": "⏰ REBUT - Béton trop vieux, commander nouvelle livraison"
+                },
+                {
+                    "ok": "Les adjuvants pour étanchéité toit sont-ils présents ?",
+                    "ko": "💧 Vérifier les adjuvants spécifiques étanchéité toit"
+                }
+            ],
+            "CaptureSystem": {
+                "Utilisateur": "",
+                "Date": "",
+                "Time": "",
+                "BlockingQuestions": [0, 3],
+                "QualityTracking": true,
+                "NumeroBL": "",
+                "SpecializedBeton": "toit_avec_pentes"
+            },
+            "ActionSystem": {
+                "Notification URRATS": "beton_toit_non_conforme"
+            }
+        },
+        {
+            "Etat": "Etape 5",
+            "EtatNom": "PC4 : COULAGE TOIT AVEC PENTES",
+            "Id_lisible_par_homme": "2005",
+            "TypeEtat": "PointControle",
+            "intro": "Coulage spécialisé toit avec gestion des pentes et protection inserts",
+            "questions": [
+                {
+                    "ok": "Le coulage respecte-t-il les pentes prévues ?",
+                    "ko": "📐 Ajuster le coulage selon les pentes du toit"
+                },
+                {
+                    "ok": "Les douilles de levage Ø16 sont-elles protégées du béton ?",
+                    "ko": "🛡️ Protéger immédiatement les douilles INOX"
+                },
+                {
+                    "ok": "Les inserts de fixation Ø12 restent-ils accessibles ?",
+                    "ko": "🔩 Nettoyer les inserts de fixation avant durcissement"
+                },
+                {
+                    "ok": "La vibration est-elle adaptée aux formes toit ?",
+                    "ko": "📳 Adapter la vibration aux angles et pentes"
+                },
+                {
+                    "ok": "L'évacuation des eaux est-elle préservée ?",
+                    "ko": "💧 Vérifier que les évacuations ne sont pas bouchées"
+                },
+                {
+                    "ok": "La surface finale respecte-t-elle les pentes ?",
+                    "ko": "📏 Reprendre la surface selon les pentes prévues"
+                }
+            ],
+            "CaptureSystem": {
+                "Utilisateur": "",
+                "Date": "",
+                "Time": "",
+                "QualityImpact": "high",
+                "RebutPotential": true,
+                "SpecializedCoulage": "toit_avec_pentes_et_inserts"
+            },
+            "ActionSystem": {
+                "Notification URRATS": "defaut_coulage_toit"
+            }
+        },
+        {
+            "Etat": "Etape 6",
+            "EtatNom": "PC5 : FINITION SURFACE TOIT",
+            "Id_lisible_par_homme": "2006",
+            "TypeEtat": "PointControle",
+            "intro": "Finition spécialisée surface toit avec respect des pentes d'écoulement",
+            "questions": [
+                {
+                    "ok": "Les pentes d'évacuation sont-elles respectées (min 2%) ?",
+                    "ko": "📐 Reprendre les pentes d'évacuation avant durcissement"
+                },
+                {
+                    "ok": "La finition est-elle adaptée à l'étanchéité toit ?",
+                    "ko": "🏗️ Appliquer la finition spécifique étanchéité"
+                },
+                {
+                    "ok": "Les arêtes et angles toit sont-ils nets ?",
+                    "ko": "🔨 Reprendre les arêtes spécifiques toit"
+                },
+                {
+                    "ok": "Les douilles de levage sont-elles dégagées ?",
+                    "ko": "🔗 Nettoyer parfaitement les douilles Ø16 INOX"
+                },
+                {
+                    "ok": "Le marquage traçabilité toit a-t-il été imprimé ?",
+                    "ko": "🏷️ Marquer avec référence toit et date"
+                }
+            ],
+            "CaptureSystem": {
+                "Utilisateur": "",
+                "Date": "",
+                "Time": "",
+                "TimeConstraint": "before_initial_set",
+                "PhotoRequired": "surface_toit_avec_pentes",
+                "SpecializedFinition": "toit_etancheite"
+            },
+            "ActionSystem": {
+                "Notification URRATS": "finition_toit_defectueuse"
+            }
+        },
+        {
+            "Etat": "Etape 7",
+            "EtatNom": "PC6 : CURE BÉTON TOIT",
+            "Id_lisible_par_homme": "2007",
+            "TypeEtat": "PointControle",
+            "intro": "Cure spécialisée pour toit avec protection contre les intempéries",
+            "questions": [
+                {
+                    "ok": "Le produit de cure a-t-il été appliqué sur toute la surface toit ?",
+                    "ko": "💧 Appliquer uniformément sur angles, pentes et surfaces"
+                },
+                {
+                    "ok": "La protection intempéries toit est-elle installée ?",
+                    "ko": "🛡️ Installer protection adaptée aux formes toit"
+                },
+                {
+                    "ok": "Les évacuations d'eau restent-elles libres ?",
+                    "ko": "💧 Vérifier que les évacuations ne sont pas obstruées"
+                },
+                {
+                    "ok": "La cure minimum 24h est-elle programmée ?",
+                    "ko": "⏰ Programmer alarme décoffrage toit pour demain"
+                }
+            ],
+            "CaptureSystem": {
+                "Utilisateur": "",
+                "Date": "",
+                "Time": "",
+                "CriticalForQuality": true,
+                "SpecializedCure": "toit_protection_intemperies"
+            },
+            "ActionSystem": {
+                "Notification URRATS": "cure_toit_inadequate"
+            }
+        },
+        {
+            "Etat": "Etape 8",
+            "EtatNom": "POINT CONTRÔLE SPÉ : DÉCOFFRAGE TOIT",
+            "Id_lisible_par_homme": "2008",
+            "TypeEtat": "PointControleSpe",
+            "intro": "Décoffrage spécialisé toit avec utilisation des douilles de levage",
+            "DecoffrageConfig": {
+                "dureeMinimale": "24h",
+                "resistanceMinimale": "15MPa",
+                "methode": "progressive_avec_douilles_levage",
+                "equipementSpecifique": "douilles_levage_16_inox"
+            },
+            "questions": [
+                {
+                    "ok": "La résistance béton toit est-elle suffisante ?",
+                    "ko": "⏰ Attendre 24h supplémentaires pour décoffrage toit"
+                },
+                {
+                    "ok": "Les élingues sont-elles fixées aux 4 douilles Ø16 INOX ?",
+                    "ko": "🔗 Utiliser uniquement les douilles de levage prévues"
+                },
+                {
+                    "ok": "Le levage respecte-t-il les points d'équilibre toit ?",
+                    "ko": "⚖️ Réajuster l'élingage pour équilibrer le toit"
+                },
+                {
+                    "ok": "Le décoffrage se fait-il sans déformation des pentes ?",
+                    "ko": "📐 Attention aux déformations des pentes lors du levage"
+                },
+                {
+                    "ok": "L'aspect surface et arêtes toit est-il conforme ?",
+                    "ko": "📸 Photographier défauts spécifiques toit pour analyse"
+                }
+            ],
+            "CaptureSystem": {
+                "Utilisateur": "",
+                "Date": "",
+                "Time": "",
+                "PhotoEvidence": true,
+                "QualityGate": true,
+                "PhotoRequired": "toit_decoffe_avec_pentes",
+                "SpecializedDecoffrage": "toit_douilles_levage"
+            },
+            "ActionSystem": {
+                "Notification URRATS": "defaut_decoffrage_toit"
+            }
+        },
+        {
+            "Etat": "Etape 9",
+            "EtatNom": "PC7 : CONTRÔLE DIMENSIONNEL TOIT",
+            "Id_lisible_par_homme": "2009",
+            "TypeEtat": "PointControle",
+            "intro": "Contrôle dimensionnel spécialisé toit avec vérification pentes et inserts",
+            "questions": [
+                {
+                    "ok": "Les dimensions générales toit sont-elles conformes (±10mm) ?",
+                    "ko": "📏 REBUT POTENTIEL - Dimensions toit hors tolérances"
+                },
+                {
+                    "ok": "Les pentes d'évacuation respectent-elles 2% minimum ?",
+                    "ko": "📐 Mesurer les pentes avec niveau laser spécialisé"
+                },
+                {
+                    "ok": "Les 4 douilles Ø16 INOX sont-elles aux bonnes positions ?",
+                    "ko": "🎯 Mesurer écarts douilles de levage"
+                },
+                {
+                    "ok": "Les 4 inserts Ø12 sont-ils correctement positionnés ?",
+                    "ko": "🔩 Vérifier position inserts de fixation"
+                },
+                {
+                    "ok": "L'épaisseur respecte-t-elle le plan toit ?",
+                    "ko": "📏 Mesurer épaisseur en plusieurs points du toit"
+                }
+            ],
+            "CaptureSystem": {
+                "Utilisateur": "",
+                "Date": "",
+                "Time": "",
+                "MeasurementRequired": true,
+                "QualityClass": "P4",
+                "DocumentsRequired": ["ProcesVerbalMesuresToit"],
+                "SpecializedMeasures": ["pentes_evacuation", "position_inserts"]
+            },
+            "ActionSystem": {
+                "Notification URRATS": "dimensions_toit_non_conformes"
+            }
+        },
+        {
+            "Etat": "Etape 10",
+            "EtatNom": "PA2 : VALIDATION FINALE QUALITÉ TOIT",
+            "Id_lisible_par_homme": "2010",
+            "TypeEtat": "PointArret",
+            "intro": "VALIDATION FINALE - Contrôle qualité spécialisé toit avant stockage",
+            "questions": [],
+            "SupervisorValidation": {
+                "Required": true,
+                "MinimumRole": "RESPONSABLE_QUALITE",
+                "CheckItems": [
+                    "Dimensions toit conformes (±10mm)",
+                    "Pentes d'évacuation ≥ 2% vérifiées",
+                    "4 douilles levage Ø16 INOX opérationnelles",
+                    "4 inserts fixation Ø12 conformes",
+                    "Aspect surface toit acceptable",
+                    "Marquage traçabilité toit lisible",
+                    "Certificat matière béton disponible"
+                ]
+            },
+            "CaptureSystem": {
+                "Utilisateur": "RESPONSABLE_QUALITE_REQUIRED",
+                "Date": "",
+                "Time": "",
+                "RequireQualityApproval": true,
+                "GenerateCertificate": true,
+                "SpecializedValidation": "qualite_toit_complete"
+            },
+            "ActionSystem": {
+                "Notification URRATS": "validation_qualite_toit_rejected"
+            }
+        },
+        {
+            "Etat": "Etape 11",
+            "EtatNom": "PC8 : PRÉPARATION EXPÉDITION TOIT",
+            "Id_lisible_par_homme": "2011",
+            "TypeEtat": "PointControle",
+            "intro": "Préparation expédition spécialisée toit avec protection inserts",
+            "questions": [
+                {
+                    "ok": "Les protections angles toit sont-elles installées ?",
+                    "ko": "🛡️ Installer protections spécifiques angles toit"
+                },
+                {
+                    "ok": "Les douilles de levage sont-elles protégées pour transport ?",
+                    "ko": "🔗 Protéger les douilles Ø16 INOX contre les chocs"
+                },
+                {
+                    "ok": "Les inserts de fixation sont-ils protégés/bouchés ?",
+                    "ko": "🔩 Boucher temporairement les inserts Ø12"
+                },
+                {
+                    "ok": "Le marquage CE/NF toit est-il visible ?",
+                    "ko": "🏷️ Remarquer le toit avec certifications"
+                },
+                {
+                    "ok": "La fiche technique toit est-elle attachée ?",
+                    "ko": "📄 Fixer fiche technique spécialisée toit"
+                },
+                {
+                    "ok": "Le poids toit réel a-t-il été pesé ?",
+                    "ko": "⚖️ Peser et marquer le poids toit"
+                }
+            ],
+            "CaptureSystem": {
+                "Utilisateur": "",
+                "Date": "",
+                "Time": "",
+                "RegulatoryCompliance": true,
+                "WeighingRequired": true,
+                "SpecializedPreparation": "toit_avec_inserts_proteges"
+            },
+            "ActionSystem": {
+                "Notification URRATS": "preparation_toit_incomplete"
+            }
+        },
+        {
+            "Etat": "Etape 12",
+            "EtatNom": "TERMINAL : TOIT TERMINÉ",
+            "Id_lisible_par_homme": "2012",
+            "TypeEtat": "Terminal",
+            "intro": "Toit préfabriqué terminé et prêt pour expédition",
+            "questions": [],
+            "Completion": {
+                "FinalStatus": "TOIT_COMPLETED",
+                "GenerateDocuments": [
+                    "CertificatConformiteToitComplete",
+                    "FicheTracabiliteToitFull",
+                    "PlanLevageDouilles16INOX",
+                    "SchemaInserts12Fixation",
+                    "RapportQualiteToit"
+                ],
+                "NotifySystem": ["ERP_PRODUCTION", "LOGISTIQUE", "COMMERCIAL"],
+                "ArchiveData": true,
+                "CompletionTime": "now",
+                "SpecializedCompletion": "toit_avec_inserts_douilles"
+            },
+            "CaptureSystem": {
+                "Utilisateur": "",
+                "Date": "",
+                "Time": "",
+                "FinalCapture": true,
+                "ProductType": "TOIT_PREFABRIQUE"
+            },
+            "ActionSystem": {
+                "Notification URRATS": "toit_process_completed"
+            }
+        }
+    ]
+}

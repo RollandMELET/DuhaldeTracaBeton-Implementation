@@ -1,0 +1,596 @@
+{
+    "version": "V3",
+    "lastUpdate": "2025-09-04",
+    "TypeObjet": "MouleEnveloppe",
+    "Ref": "V3 Enriched du 04/09/2025 - Version Conforme avec Questions Métier Spécialisées Enveloppe",
+    "CaptureSystem": {
+        "ID-PIECE": "",
+        "ID-MOULE": ""
+    },
+    "ProcessSteps": [
+        {
+            "Etat": "Etape 1",
+            "EtatNom": "PC1 : PRÉPARATION MOULE ENVELOPPE",
+            "Id_lisible_par_homme": "0001",
+            "TypeEtat": "PointControle",
+            "intro": "Vérification complète du moule enveloppe - Géométrie variable complexe",
+            "questions": [
+                {
+                    "ok": "Le moule enveloppe est-il propre et exempt de résidus ?",
+                    "ko": "⚠️ Nettoyer minutieusement toutes les géométries complexes"
+                },
+                {
+                    "ok": "Les dimensions variables de l'enveloppe correspondent-elles au plan ?",
+                    "ko": "❌ STOP - Vérifier plan enveloppe avec géométrie spécifique"
+                },
+                {
+                    "ok": "Les joints d'étanchéité complexes sont-ils en bon état ?",
+                    "ko": "🔧 Remplacer les joints défectueux sur formes complexes"
+                },
+                {
+                    "ok": "Les éléments de géométrie variable fonctionnent-ils ?",
+                    "ko": "🔧 Ajuster les éléments de forme variable"
+                },
+                {
+                    "ok": "L'agent de démoulage est-il appliqué sur toutes surfaces ?",
+                    "ko": "➕ Appliquer sur toutes les surfaces complexes de l'enveloppe"
+                },
+                {
+                    "ok": "Les réservations et inserts spécialisés sont-ils préparés ?",
+                    "ko": "🔩 Vérifier tous les inserts spécialisés enveloppe"
+                }
+            ],
+            "CaptureSystem": {
+                "Utilisateur": "",
+                "Date": "",
+                "Time": "",
+                "Validation": "all_ok_required",
+                "MinOK": 6,
+                "ComplexGeometry": true
+            },
+            "ActionSystem": {
+                "Notification URRATS": "dimensions_enveloppe_non_conformes"
+            }
+        },
+        {
+            "Etat": "Etape 2",
+            "EtatNom": "PC2 : VÉRIFICATION ACIER ENVELOPPE",
+            "Id_lisible_par_homme": "0002",
+            "TypeEtat": "PointControle",
+            "intro": "Contrôle ferraillage adapté aux formes complexes enveloppe",
+            "questions": [
+                {
+                    "ok": "Le ferraillage correspond-il au plan complexe enveloppe ?",
+                    "ko": "❌ REBUT POTENTIEL - Plan enveloppe très spécialisé, vérifier"
+                },
+                {
+                    "ok": "Les armatures suivent-elles les formes variables ?",
+                    "ko": "🔧 Adapter le ferraillage aux géométries complexes"
+                },
+                {
+                    "ok": "Les cintres et façonnages spécialisés sont-ils corrects ?",
+                    "ko": "🔨 Reprendre le façonnage selon formes enveloppe"
+                },
+                {
+                    "ok": "L'espacement est-il adapté aux zones variables ?",
+                    "ko": "📏 Ajuster espacement selon géométrie locale"
+                },
+                {
+                    "ok": "Les inserts et ancrages spécialisés sont-ils positionnés ?",
+                    "ko": "🔩 Positionner tous les ancrages spécialisés enveloppe"
+                },
+                {
+                    "ok": "L'enrobage est-il garanti sur toute la géométrie ?",
+                    "ko": "➕ Vérifier enrobage sur formes complexes"
+                },
+                {
+                    "ok": "Les armatures de reprise sont-elles préparées ?",
+                    "ko": "🔗 Préparer toutes les armatures de liaison"
+                }
+            ],
+            "CaptureSystem": {
+                "Utilisateur": "",
+                "Date": "",
+                "Time": "",
+                "CriticalQuestions": [0, 1, 4],
+                "PhotoRequired": "ferraillage_enveloppe_geometrie_complexe",
+                "SpecializedFerraillage": "enveloppe_formes_variables"
+            },
+            "ActionSystem": {
+                "Notification URRATS": "ferraillage_enveloppe_incorrect"
+            }
+        },
+        {
+            "Etat": "Etape 3",
+            "EtatNom": "PA1 : VALIDATION SUPERVISEUR ENVELOPPE",
+            "Id_lisible_par_homme": "0003",
+            "TypeEtat": "PointArret",
+            "intro": "POINT D'ARRÊT OBLIGATOIRE - Validation spécialisée enveloppe complexe",
+            "questions": [],
+            "SupervisorValidation": {
+                "Required": true,
+                "MinimumRole": "SUPERVISEUR",
+                "ValidationItems": [
+                    "Plan ferraillage enveloppe conforme",
+                    "Géométrie variable respectée",
+                    "Inserts et ancrages spécialisés positionnés",
+                    "Armatures de reprise préparées",
+                    "Enrobage garanti sur toute géométrie",
+                    "Photo ferraillage enveloppe prise"
+                ]
+            },
+            "CaptureSystem": {
+                "Utilisateur": "SUPERVISEUR_REQUIRED",
+                "Date": "",
+                "Time": "",
+                "PhotoEvidence": true,
+                "DocumentEvidence": true,
+                "SpecializedValidation": "enveloppe_geometrie_complexe"
+            },
+            "ActionSystem": {
+                "Notification URRATS": "validation_superviseur_enveloppe_required"
+            }
+        },
+        {
+            "Etat": "Etape 4",
+            "EtatNom": "PC3 : CONTRÔLE BÉTON ENVELOPPE",
+            "Id_lisible_par_homme": "0004",
+            "TypeEtat": "PointControle",
+            "intro": "Vérification béton adapté aux formes complexes et manutention lourde",
+            "questions": [
+                {
+                    "ok": "Le béton correspond-il aux specs enveloppe (résistance renforcée) ?",
+                    "ko": "❌ STOP - Béton enveloppe nécessite résistance spécialisée"
+                },
+                {
+                    "ok": "L'ouvrabilité est-elle adaptée aux formes complexes ?",
+                    "ko": "💧 Ajuster pour coulage dans géométries variables"
+                },
+                {
+                    "ok": "Les adjuvants pour manutention lourde sont-ils présents ?",
+                    "ko": "🏗️ Vérifier adjuvants spécialisés manutention"
+                },
+                {
+                    "ok": "La température béton est-elle optimale ?",
+                    "ko": "🌡️ Ajuster température pour enveloppe"
+                },
+                {
+                    "ok": "Le temps de transport respecte-t-il les contraintes ?",
+                    "ko": "⏰ REBUT - Délai dépassé pour béton enveloppe"
+                },
+                {
+                    "ok": "Les fibres de renforcement sont-elles intégrées ?",
+                    "ko": "🧬 Vérifier présence fibres pour résistance"
+                }
+            ],
+            "CaptureSystem": {
+                "Utilisateur": "",
+                "Date": "",
+                "Time": "",
+                "BlockingQuestions": [0, 4],
+                "QualityTracking": true,
+                "NumeroBL": "",
+                "SpecializedBeton": "enveloppe_haute_resistance"
+            },
+            "ActionSystem": {
+                "Notification URRATS": "beton_enveloppe_non_conforme"
+            }
+        },
+        {
+            "Etat": "Etape 5",
+            "EtatNom": "PC4 : COULAGE ENVELOPPE COMPLEXE",
+            "Id_lisible_par_homme": "0005",
+            "TypeEtat": "PointControle",
+            "intro": "Coulage spécialisé dans géométries variables avec manutention lourde",
+            "questions": [
+                {
+                    "ok": "Le coulage suit-il l'ordre optimal pour formes complexes ?",
+                    "ko": "📐 Respecter séquence coulage géométrie variable"
+                },
+                {
+                    "ok": "La vibration est-elle adaptée aux zones difficiles ?",
+                    "ko": "📳 Intensifier vibration dans angles complexes"
+                },
+                {
+                    "ok": "Les inserts restent-ils parfaitement positionnés ?",
+                    "ko": "🔩 Maintenir position inserts pendant coulage"
+                },
+                {
+                    "ok": "L'épaisseur variable est-elle respectée ?",
+                    "ko": "📏 Contrôler épaisseur selon plan variable"
+                },
+                {
+                    "ok": "Les reprises de bétonnage sont-elles propres ?",
+                    "ko": "🔗 Nettoyer parfaitement toutes reprises"
+                },
+                {
+                    "ok": "La surface finale suit-elle la géométrie prévue ?",
+                    "ko": "📐 Reprendre surface selon géométrie complexe"
+                },
+                {
+                    "ok": "Les éléments de manutention sont-ils préservés ?",
+                    "ko": "🏗️ Protéger tous éléments de levage lourd"
+                }
+            ],
+            "CaptureSystem": {
+                "Utilisateur": "",
+                "Date": "",
+                "Time": "",
+                "QualityImpact": "very_high",
+                "RebutPotential": true,
+                "SpecializedCoulage": "enveloppe_geometrie_variable_lourde"
+            },
+            "ActionSystem": {
+                "Notification URRATS": "defaut_coulage_enveloppe_complexe"
+            }
+        },
+        {
+            "Etat": "Etape 6",
+            "EtatNom": "PC5 : FINITIONS SPÉCIALISÉES ENVELOPPE",
+            "Id_lisible_par_homme": "0006",
+            "TypeEtat": "PointControle",
+            "intro": "Finitions complexes adaptées aux formes variables et aspects esthétiques",
+            "questions": [
+                {
+                    "ok": "Les finitions esthétiques spécialisées sont-elles appliquées ?",
+                    "ko": "🎨 Appliquer finitions selon cahier des charges esthétique"
+                },
+                {
+                    "ok": "Les textures variables sont-elles uniformes ?",
+                    "ko": "🖐️ Reprendre textures selon spécifications"
+                },
+                {
+                    "ok": "Les arêtes et angles complexes sont-ils nets ?",
+                    "ko": "🔨 Reprendre tous les angles de géométrie complexe"
+                },
+                {
+                    "ok": "Les tolérances dimensionnelles sont-elles respectées ?",
+                    "ko": "📏 Vérifier toutes les cotes critiques"
+                },
+                {
+                    "ok": "Les éléments d'étanchéité sont-ils intégrés ?",
+                    "ko": "💧 Installer tous éléments d'étanchéité"
+                },
+                {
+                    "ok": "Le marquage spécialisé enveloppe est-il apposé ?",
+                    "ko": "🏷️ Marquer avec références spécialisées enveloppe"
+                }
+            ],
+            "CaptureSystem": {
+                "Utilisateur": "",
+                "Date": "",
+                "Time": "",
+                "TimeConstraint": "before_initial_set",
+                "PhotoRequired": "finitions_enveloppe_complexes",
+                "SpecializedFinition": "enveloppe_esthetique_technique"
+            },
+            "ActionSystem": {
+                "Notification URRATS": "finitions_enveloppe_defectueuses"
+            }
+        },
+        {
+            "Etat": "Etape 7",
+            "EtatNom": "PC6 : CURE ENVELOPPE RENFORCÉE",
+            "Id_lisible_par_homme": "0007",
+            "TypeEtat": "PointControle",
+            "intro": "Cure spécialisée pour enveloppe avec protection renforcée",
+            "questions": [
+                {
+                    "ok": "Le produit de cure est-il appliqué sur toutes surfaces ?",
+                    "ko": "💧 Appliquer sur géométries complexes et faces cachées"
+                },
+                {
+                    "ok": "La protection contre fissuration précoce est-elle installée ?",
+                    "ko": "🛡️ Installer protection anti-fissuration renforcée"
+                },
+                {
+                    "ok": "Le contrôle thermique différentiel est-il assuré ?",
+                    "ko": "🌡️ Surveiller gradients thermiques sur épaisseurs variables"
+                },
+                {
+                    "ok": "La cure prolongée (48h minimum) est-elle programmée ?",
+                    "ko": "⏰ Programmer cure renforcée pour enveloppe"
+                },
+                {
+                    "ok": "L'humidification des surfaces exposées est-elle maintenue ?",
+                    "ko": "💧 Maintenir humidité sur toutes surfaces"
+                }
+            ],
+            "CaptureSystem": {
+                "Utilisateur": "",
+                "Date": "",
+                "Time": "",
+                "CriticalForQuality": true,
+                "ExtendedCuring": "48h_minimum",
+                "SpecializedCure": "enveloppe_geometrie_complexe"
+            },
+            "ActionSystem": {
+                "Notification URRATS": "cure_enveloppe_inadequate"
+            }
+        },
+        {
+            "Etat": "Etape 8",
+            "EtatNom": "POINT CONTRÔLE SPÉ : DÉCOFFRAGE ENVELOPPE LOURDE",
+            "Id_lisible_par_homme": "0008",
+            "TypeEtat": "PointControleSpe",
+            "intro": "Décoffrage spécialisé enveloppe avec manutention lourde sécurisée",
+            "DecoffrageConfig": {
+                "dureeMinimale": "48h",
+                "resistanceMinimale": "20MPa",
+                "methode": "progressive_manutention_lourde",
+                "equipementSpecifique": "grue_forte_capacite",
+                "precautionsSpeciales": ["protection_aretes", "soutien_formes_complexes"]
+            },
+            "questions": [
+                {
+                    "ok": "La résistance béton enveloppe est-elle suffisante (≥20MPa) ?",
+                    "ko": "⏰ Attendre résistance suffisante pour manutention lourde"
+                },
+                {
+                    "ok": "L'équipement de levage lourd est-il adapté ?",
+                    "ko": "🏗️ Utiliser grue de capacité suffisante pour enveloppe"
+                },
+                {
+                    "ok": "Les points de levage spécialisés sont-ils utilisés ?",
+                    "ko": "🔗 Utiliser uniquement points de levage prévus"
+                },
+                {
+                    "ok": "Le décoffrage préserve-t-il la géométrie complexe ?",
+                    "ko": "📐 Attention déformations sur formes variables"
+                },
+                {
+                    "ok": "Les arêtes et finitions sont-elles préservées ?",
+                    "ko": "🛡️ Protéger arêtes pendant manutention"
+                },
+                {
+                    "ok": "L'aspect final correspond-il aux spécifications ?",
+                    "ko": "📸 Photographier défauts pour analyse technique"
+                }
+            ],
+            "CaptureSystem": {
+                "Utilisateur": "",
+                "Date": "",
+                "Time": "",
+                "PhotoEvidence": true,
+                "QualityGate": true,
+                "PhotoRequired": "enveloppe_decofree_geometrie_complexe",
+                "SpecializedDecoffrage": "manutention_lourde_enveloppe"
+            },
+            "ActionSystem": {
+                "Notification URRATS": "defaut_decoffrage_enveloppe"
+            }
+        },
+        {
+            "Etat": "Etape 9",
+            "EtatNom": "PC7 : CONTRÔLE DIMENSIONNEL COMPLEXE",
+            "Id_lisible_par_homme": "0009",
+            "TypeEtat": "PointControle",
+            "intro": "Contrôle dimensionnel spécialisé avec tolérances renforcées",
+            "questions": [
+                {
+                    "ok": "Toutes les dimensions variables sont-elles conformes ?",
+                    "ko": "📏 REBUT POTENTIEL - Géométrie complexe hors tolérances"
+                },
+                {
+                    "ok": "Les tolérances renforcées sont-elles respectées (±5mm) ?",
+                    "ko": "📐 Mesurer toutes cotes critiques avec instruments calibrés"
+                },
+                {
+                    "ok": "Les inserts et ancrages sont-ils aux bonnes positions ?",
+                    "ko": "🎯 Vérifier position tous éléments spécialisés"
+                },
+                {
+                    "ok": "La géométrie d'ensemble est-elle conforme ?",
+                    "ko": "📊 Contrôler géométrie globale avec gabarits"
+                },
+                {
+                    "ok": "Les épaisseurs variables respectent-elles le plan ?",
+                    "ko": "📏 Mesurer épaisseurs en tous points critiques"
+                },
+                {
+                    "ok": "Les interfaces de liaison sont-elles conformes ?",
+                    "ko": "🔗 Vérifier toutes interfaces de raccordement"
+                }
+            ],
+            "CaptureSystem": {
+                "Utilisateur": "",
+                "Date": "",
+                "Time": "",
+                "MeasurementRequired": true,
+                "QualityClass": "P3_reinforced",
+                "DocumentsRequired": ["ProcesVerbalMesuresEnveloppe", "ControleGeometrieComplexe"],
+                "SpecializedMeasures": ["geometrie_variable", "tolerances_renforcees"]
+            },
+            "ActionSystem": {
+                "Notification URRATS": "dimensions_enveloppe_complexe_non_conformes"
+            }
+        },
+        {
+            "Etat": "Etape 10",
+            "EtatNom": "PC8 : TESTS RÉSISTANCE SPÉCIALISÉS",
+            "Id_lisible_par_homme": "0010",
+            "TypeEtat": "PointControle",
+            "intro": "Tests résistance adaptés manutention lourde et contraintes spécialisées",
+            "questions": [
+                {
+                    "ok": "Les éprouvettes spécialisées enveloppe ont-elles été prélevées ?",
+                    "ko": "🧪 Impossible validation sans éprouvettes enveloppe"
+                },
+                {
+                    "ok": "La résistance atteint-elle les spécs renforcées (≥30MPa) ?",
+                    "ko": "❌ REBUT CERTAIN - Résistance insuffisante pour enveloppe"
+                },
+                {
+                    "ok": "Les tests de flexion sont-ils conformes ?",
+                    "ko": "🔧 Résistance flexion inadequate pour manutention"
+                },
+                {
+                    "ok": "La résistance au jeune âge était-elle suffisante ?",
+                    "ko": "📊 Analyser montée en résistance enveloppe"
+                },
+                {
+                    "ok": "Le rapport laboratoire spécialisé est-il disponible ?",
+                    "ko": "📋 Exiger rapport complet pour enveloppe"
+                },
+                {
+                    "ok": "Les tests complémentaires spécialisés sont-ils OK ?",
+                    "ko": "🔬 Réaliser tous tests requis pour enveloppe"
+                }
+            ],
+            "CaptureSystem": {
+                "Utilisateur": "",
+                "Date": "",
+                "Time": "",
+                "LabCertificationRequired": true,
+                "BlockingQuestions": [1, 4],
+                "TraceabilityLevel": "full_specialized",
+                "SpecializedTesting": "enveloppe_manutention_lourde"
+            },
+            "ActionSystem": {
+                "Notification URRATS": "resistance_enveloppe_insuffisante"
+            }
+        },
+        {
+            "Etat": "Etape 11",
+            "EtatNom": "PA2 : VALIDATION TECHNIQUE SPÉCIALISÉE",
+            "Id_lisible_par_homme": "0011",
+            "TypeEtat": "PointArret",
+            "intro": "VALIDATION TECHNIQUE - Contrôle complet enveloppe avant packaging",
+            "questions": [],
+            "SupervisorValidation": {
+                "Required": true,
+                "MinimumRole": "RESPONSABLE_TECHNIQUE",
+                "CheckItems": [
+                    "Géométrie complexe conforme (±5mm)",
+                    "Résistance spécialisée validée (≥30MPa)",
+                    "Finitions esthétiques acceptables",
+                    "Inserts et ancrages tous conformes",
+                    "Manutention lourde validée",
+                    "Documentation technique complète",
+                    "Tests spécialisés tous OK"
+                ]
+            },
+            "CaptureSystem": {
+                "Utilisateur": "RESPONSABLE_TECHNIQUE_REQUIRED",
+                "Date": "",
+                "Time": "",
+                "RequireSpecializedApproval": true,
+                "GenerateSpecializedCertificate": true,
+                "SpecializedValidation": "enveloppe_technique_complete"
+            },
+            "ActionSystem": {
+                "Notification URRATS": "validation_technique_enveloppe_rejected"
+            }
+        },
+        {
+            "Etat": "Etape 12",
+            "EtatNom": "PC9 : PACKAGING SPÉCIALISÉ ENVELOPPE",
+            "Id_lisible_par_homme": "0012",
+            "TypeEtat": "PointControle",
+            "intro": "Packaging spécialisé pour transport sécurisé enveloppe complexe",
+            "questions": [
+                {
+                    "ok": "Les protections spécialisées angles sont-elles installées ?",
+                    "ko": "🛡️ Installer protections renforcées géométrie complexe"
+                },
+                {
+                    "ok": "L'emballage adapté manutention lourde est-il préparé ?",
+                    "ko": "📦 Préparer emballage spécialisé transport lourd"
+                },
+                {
+                    "ok": "Les instructions de manutention sont-elles attachées ?",
+                    "ko": "📋 Joindre instructions détaillées manutention"
+                },
+                {
+                    "ok": "Le marquage spécialisé enveloppe est-il complet ?",
+                    "ko": "🏷️ Compléter marquage technique enveloppe"
+                },
+                {
+                    "ok": "La documentation technique est-elle jointe ?",
+                    "ko": "📄 Joindre dossier technique complet enveloppe"
+                },
+                {
+                    "ok": "Le plan de levage spécialisé est-il fourni ?",
+                    "ko": "🏗️ Fournir plan détaillé manutention lourde"
+                }
+            ],
+            "CaptureSystem": {
+                "Utilisateur": "",
+                "Date": "",
+                "Time": "",
+                "RegulatoryCompliance": true,
+                "WeighingRequired": true,
+                "SpecializedPackaging": "enveloppe_transport_lourd_complexe"
+            },
+            "ActionSystem": {
+                "Notification URRATS": "packaging_enveloppe_incomplet"
+            }
+        },
+        {
+            "Etat": "Etape 13",
+            "EtatNom": "PA3 : AUTORISATION EXPÉDITION ENVELOPPE",
+            "Id_lisible_par_homme": "0013",
+            "TypeEtat": "PointArret",
+            "intro": "AUTORISATION FINALE - Expédition sécurisée enveloppe complexe",
+            "questions": [],
+            "SupervisorValidation": {
+                "Required": true,
+                "MinimumRole": "SUPERVISEUR",
+                "FinalCheckItems": [
+                    "Tous contrôles techniques passés",
+                    "Packaging spécialisé correct",
+                    "Documentation technique complète",
+                    "Plan manutention lourde fourni",
+                    "Instructions transport sécurisé",
+                    "Géométrie complexe protégée",
+                    "Autorisation expédition enveloppe accordée"
+                ]
+            },
+            "CaptureSystem": {
+                "Utilisateur": "SUPERVISEUR_REQUIRED",
+                "Date": "",
+                "Time": "",
+                "RequireFinalApproval": true,
+                "AllSpecializedChecksCompleted": true,
+                "TransportSecurityValidated": true
+            },
+            "ActionSystem": {
+                "Notification URRATS": "expedition_enveloppe_refused"
+            }
+        },
+        {
+            "Etat": "Etape 14",
+            "EtatNom": "TERMINAL : ENVELOPPE EXPÉDIÉE",
+            "Id_lisible_par_homme": "0014",
+            "TypeEtat": "Terminal",
+            "intro": "Enveloppe complexe expédiée avec succès - Process spécialisé terminé",
+            "questions": [],
+            "Completion": {
+                "FinalStatus": "ENVELOPPE_SHIPPED",
+                "GenerateDocuments": [
+                    "CertificatConformiteEnveloppeComplete",
+                    "FicheTracabiliteEnveloppeFull",
+                    "DossierTechniqueEnveloppe",
+                    "PlanManutentionLourde",
+                    "InstructionsTransportSecurise",
+                    "RapportQualiteEnveloppeComplet",
+                    "ControleGeometrieComplexe"
+                ],
+                "NotifySystem": ["ERP_PRODUCTION", "LOGISTIQUE_LOURDE", "COMMERCIAL", "TECHNIQUE"],
+                "ArchiveData": true,
+                "CompletionTime": "now",
+                "SpecializedCompletion": "enveloppe_geometrie_variable_manutention_lourde"
+            },
+            "CaptureSystem": {
+                "Utilisateur": "",
+                "Date": "",
+                "Time": "",
+                "FinalCapture": true,
+                "ProductType": "ENVELOPPE_PREFABRIQUEE_COMPLEXE"
+            },
+            "ActionSystem": {
+                "Notification URRATS": "enveloppe_process_completed"
+            }
+        }
+    ]
+}

@@ -1,0 +1,683 @@
+{
+  "_schema": {
+    "version": "3.0.0",
+    "type": "FullyEnrichedProcess",
+    "description": "Fully enriched ProcessDalle with complete business questions for concrete manufacturing",
+    "created": "2025-09-04T10:00:00.000Z",
+    "author": "Duhalde Business Expert System"
+  },
+  
+  "id": "ProcessDalle",
+  "name": "Process de Fabrication Dalle Béton",
+  "version": "3.0.0",
+  "description": "Processus complet de fabrication de dalles en béton préfabriqué avec toutes les questions métier",
+  
+  "steps": [
+    {
+      "Etat": "Etape 1",
+      "EtatNom": "PC1 : Vérification étape initiale",
+      "Id_lisible_par_homme": "1001",
+      "TypeEtat": "PointControle",
+      "intro": "Vérification complète du moule avant coulage. Cette étape est critique pour la qualité finale de la dalle.",
+      "questions": [
+        {
+          "ok": "Le moule est-il propre et exempt de résidus de béton ?",
+          "ko": "⚠️ Nettoyer le moule avec le nettoyeur haute pression et brosser les zones difficiles"
+        },
+        {
+          "ok": "Les dimensions du moule correspondent-elles au bon de commande ?",
+          "ko": "❌ STOP - Vérifier le bon de commande avec le superviseur"
+        },
+        {
+          "ok": "Les joints d'étanchéité sont-ils en bon état ?",
+          "ko": "🔧 Remplacer les joints défectueux avant de continuer"
+        },
+        {
+          "ok": "Le système de fermeture fonctionne-t-il correctement ?",
+          "ko": "🔧 Ajuster ou réparer le système de fermeture"
+        },
+        {
+          "ok": "L'agent de démoulage a-t-il été appliqué uniformément ?",
+          "ko": "➕ Appliquer l'agent de démoulage sur toutes les surfaces"
+        }
+      ],
+      "businessRules": {
+        "validation": {
+          "requiredAnswers": "all",
+          "minOK": 5,
+          "blockingKO": ["dimensions"]
+        },
+        "transitions": {
+          "default": "1002",
+          "onKO": "stay",
+          "onURRATS": "supervisor"
+        }
+      },
+      "renderingStrategy": {
+        "screenType": "PointControleScreen",
+        "questionDisplay": "sequential"
+      }
+    },
+    
+    {
+      "Etat": "Etape 2",
+      "EtatNom": "PC2 : Vérification acier",
+      "Id_lisible_par_homme": "1002",
+      "TypeEtat": "PointControle",
+      "intro": "Contrôle du ferraillage et des armatures. La résistance structurelle de la dalle en dépend.",
+      "questions": [
+        {
+          "ok": "Les armatures correspondent-elles au plan de ferraillage ?",
+          "ko": "❌ REBUT POTENTIEL - Vérifier immédiatement avec le chef d'équipe"
+        },
+        {
+          "ok": "Le diamètre des barres d'acier est-il correct (Ø12, Ø16, etc.) ?",
+          "ko": "❌ STOP - Mauvais diamètre = dalle non conforme"
+        },
+        {
+          "ok": "L'espacement entre les barres respecte-t-il les 15cm minimum ?",
+          "ko": "🔧 Repositionner les barres selon le plan"
+        },
+        {
+          "ok": "Les cales d'enrobage (3cm minimum) sont-elles en place ?",
+          "ko": "➕ Ajouter des cales pour garantir l'enrobage béton"
+        },
+        {
+          "ok": "Les armatures sont-elles exemptes de rouille excessive ?",
+          "ko": "🧹 Brosser les armatures rouillées ou les remplacer si nécessaire"
+        },
+        {
+          "ok": "Les inserts métalliques de levage sont-ils positionnés ?",
+          "ko": "➕ Positionner les inserts selon le plan de levage"
+        }
+      ],
+      "businessRules": {
+        "validation": {
+          "requiredAnswers": "all",
+          "criticalQuestions": [0, 1, 2],
+          "rebutTriggers": ["plan", "diamètre"]
+        },
+        "transitions": {
+          "default": "1003",
+          "onCriticalKO": "supervisor_validation"
+        }
+      }
+    },
+    
+    {
+      "Etat": "Etape 3",
+      "EtatNom": "PA1 : Validation superviseur armatures",
+      "Id_lisible_par_homme": "1003",
+      "TypeEtat": "PointArret",
+      "intro": "POINT D'ARRÊT OBLIGATOIRE - Le superviseur doit valider le ferraillage avant coulage du béton.",
+      "questions": [],
+      "supervisorValidation": {
+        "required": true,
+        "minimumRole": "SUPERVISEUR",
+        "validationItems": [
+          "Plan de ferraillage conforme",
+          "Diamètres et espacements corrects",
+          "Enrobage garanti",
+          "Photo du ferraillage prise"
+        ]
+      },
+      "businessRules": {
+        "validation": {
+          "requireSupervisor": true,
+          "photoRequired": true,
+          "documentEvidence": true
+        },
+        "transitions": {
+          "onValidated": "1004",
+          "onRejected": "1002"
+        }
+      }
+    },
+    
+    {
+      "Etat": "Etape 4",
+      "EtatNom": "Transition préparation coulage",
+      "Id_lisible_par_homme": "1004",
+      "TypeEtat": "Transition",
+      "intro": "Préparation de la zone de coulage et vérification des équipements",
+      "questions": [],
+      "businessRules": {
+        "transitions": {
+          "default": "1005",
+          "duration": 0
+        }
+      }
+    },
+    
+    {
+      "Etat": "Etape 5",
+      "EtatNom": "PC3 : Contrôle béton avant coulage",
+      "Id_lisible_par_homme": "1005",
+      "TypeEtat": "PointControle",
+      "intro": "Vérification de la qualité du béton livré avant le coulage dans le moule",
+      "questions": [
+        {
+          "ok": "Le bon de livraison correspond-il à la commande (C25/30, XC2, S3) ?",
+          "ko": "❌ STOP - Ne pas couler, vérifier avec le fournisseur"
+        },
+        {
+          "ok": "Le test d'étalement (slump test) est-il dans les tolérances (10-15cm) ?",
+          "ko": "💧 Ajuster la consistance ou refuser la livraison"
+        },
+        {
+          "ok": "La température du béton est-elle entre 5°C et 30°C ?",
+          "ko": "🌡️ Attendre ou traiter thermiquement le béton"
+        },
+        {
+          "ok": "L'heure de fabrication du béton est-elle < 90 minutes ?",
+          "ko": "⏰ REBUT - Béton trop vieux, commander une nouvelle livraison"
+        },
+        {
+          "ok": "La centrale à béton est-elle agréée NF ?",
+          "ko": "📋 Vérifier les certifications avec le responsable qualité"
+        }
+      ],
+      "businessRules": {
+        "validation": {
+          "requiredAnswers": "all",
+          "blockingQuestions": [0, 3],
+          "qualityTracking": true
+        },
+        "transitions": {
+          "default": "1006",
+          "onBlockingKO": "cancel_production"
+        }
+      }
+    },
+    
+    {
+      "Etat": "Etape 6",
+      "EtatNom": "PointSynchronisation : Attribution BL Béton",
+      "Id_lisible_par_homme": "1006",
+      "TypeEtat": "PointSynchronisation",
+      "intro": "Synchronisation avec le système de gestion des BL Béton pour traçabilité complète",
+      "questions": [],
+      "synchronization": {
+        "system": "BL_BETON_MANAGER",
+        "action": "ASSIGN_BL_TO_MOULD",
+        "requiredData": [
+          "numeroCommande",
+          "idMoule", 
+          "volumeBeton",
+          "qualiteBeton"
+        ]
+      },
+      "businessRules": {
+        "validation": {
+          "requireSystemConfirmation": true
+        },
+        "transitions": {
+          "onSynced": "1007",
+          "onError": "retry"
+        }
+      }
+    },
+    
+    {
+      "Etat": "Etape 7",
+      "EtatNom": "PC4 : Coulage et vibration",
+      "Id_lisible_par_homme": "1007",
+      "TypeEtat": "PointControle",
+      "intro": "Phase critique du coulage du béton avec vibration pour éliminer les bulles d'air",
+      "questions": [
+        {
+          "ok": "Le béton est-il coulé en couches régulières de 30cm maximum ?",
+          "ko": "⚠️ Ajuster la méthode de coulage pour éviter la ségrégation"
+        },
+        {
+          "ok": "La vibration est-elle appliquée pendant 30-60 secondes par zone ?",
+          "ko": "📳 Augmenter le temps de vibration pour éliminer les bulles"
+        },
+        {
+          "ok": "L'aiguille vibrante pénètre-t-elle de 10cm dans la couche précédente ?",
+          "ko": "🔧 Ajuster la profondeur de vibration"
+        },
+        {
+          "ok": "Le béton remonte-t-il uniformément sans ségrégation ?",
+          "ko": "⚠️ QUALITÉ - Risque de nids de gravier, vibrer différemment"
+        },
+        {
+          "ok": "La surface finale est-elle de niveau avec la règle vibrante ?",
+          "ko": "📏 Utiliser la règle vibrante pour niveler la surface"
+        },
+        {
+          "ok": "Les inserts et réservations sont-ils protégés du béton ?",
+          "ko": "🛡️ Protéger immédiatement les inserts avant durcissement"
+        }
+      ],
+      "businessRules": {
+        "validation": {
+          "requiredAnswers": "all",
+          "qualityImpact": "high",
+          "rebutPotential": true
+        },
+        "transitions": {
+          "default": "1008"
+        }
+      }
+    },
+    
+    {
+      "Etat": "Etape 8", 
+      "EtatNom": "PC5 : Finition de surface",
+      "Id_lisible_par_homme": "1008",
+      "TypeEtat": "PointControle",
+      "intro": "Traitement de la surface supérieure de la dalle selon les spécifications",
+      "questions": [
+        {
+          "ok": "La finition demandée est-elle appliquée (lissée/talochée/brossée) ?",
+          "ko": "🏗️ Appliquer la finition spécifiée sur le bon de commande"
+        },
+        {
+          "ok": "La planéité est-elle conforme (tolérance ±5mm sur 2m) ?",
+          "ko": "📏 Corriger la planéité avant durcissement"
+        },
+        {
+          "ok": "Les arêtes sont-elles nettes et sans épaufrures ?",
+          "ko": "🔨 Reprendre les arêtes avec une truelle"
+        },
+        {
+          "ok": "Le marquage de traçabilité a-t-il été imprimé ?",
+          "ko": "🏷️ Imprimer le numéro de série et la date sur la dalle"
+        }
+      ],
+      "businessRules": {
+        "validation": {
+          "requiredAnswers": "all",
+          "timeConstraint": "before_initial_set"
+        },
+        "transitions": {
+          "default": "1009"
+        }
+      }
+    },
+    
+    {
+      "Etat": "Etape 9",
+      "EtatNom": "PC6 : Cure du béton",
+      "Id_lisible_par_homme": "1009",
+      "TypeEtat": "PointControle",
+      "intro": "Mise en place du processus de cure pour garantir la résistance du béton",
+      "questions": [
+        {
+          "ok": "Le produit de cure a-t-il été pulvérisé uniformément ?",
+          "ko": "💧 Appliquer le produit de cure sur toute la surface"
+        },
+        {
+          "ok": "La dalle est-elle protégée des intempéries (pluie/soleil/gel) ?",
+          "ko": "🛡️ Installer une bâche de protection"
+        },
+        {
+          "ok": "La température ambiante est-elle > 5°C ?",
+          "ko": "🌡️ Mettre en place un chauffage si nécessaire"
+        },
+        {
+          "ok": "Le temps de cure minimum (24h) est-il programmé ?",
+          "ko": "⏰ Programmer l'alarme de décoffrage pour demain"
+        }
+      ],
+      "businessRules": {
+        "validation": {
+          "requiredAnswers": "all",
+          "criticalForQuality": true
+        },
+        "transitions": {
+          "default": "1010"
+        }
+      }
+    },
+    
+    {
+      "Etat": "Etape 10",
+      "EtatNom": "PointControleSpe : Décoffrage",
+      "Id_lisible_par_homme": "1010", 
+      "TypeEtat": "PointControleSpe",
+      "intro": "Décoffrage de la dalle après cure complète (minimum 24h)",
+      "DecoffrageConfig": {
+        "dureeMinimale": "24h",
+        "resistanceMinimale": "15MPa",
+        "methode": "progressive"
+      },
+      "questions": [
+        {
+          "ok": "La résistance du béton est-elle suffisante (test au scléromètre) ?",
+          "ko": "⏰ Attendre 24h supplémentaires avant décoffrage"
+        },
+        {
+          "ok": "Les élingues de levage sont-elles correctement positionnées ?",
+          "ko": "🔗 Repositionner les élingues selon le plan de levage"
+        },
+        {
+          "ok": "Le moule s'ouvre-t-il sans forcer ?",
+          "ko": "🔧 Utiliser les coins de décoffrage, ne pas forcer"
+        },
+        {
+          "ok": "La dalle se décolle-t-elle proprement sans fissures ?",
+          "ko": "❌ REBUT POTENTIEL - Fissures détectées, appeler superviseur"
+        },
+        {
+          "ok": "L'aspect de surface est-il conforme (pas de bullage excessif) ?",
+          "ko": "📸 Photographier les défauts pour analyse qualité"
+        }
+      ],
+      "businessRules": {
+        "validation": {
+          "requiredAnswers": "all",
+          "photoEvidence": true,
+          "qualityGate": true
+        },
+        "transitions": {
+          "default": "1011",
+          "onDefects": "quality_control"
+        }
+      }
+    },
+    
+    {
+      "Etat": "Etape 11",
+      "EtatNom": "PA2 : Validation finale qualité",
+      "Id_lisible_par_homme": "1011",
+      "TypeEtat": "PointArret",
+      "intro": "VALIDATION FINALE - Contrôle qualité complet avant stockage",
+      "questions": [],
+      "supervisorValidation": {
+        "required": true,
+        "minimumRole": "RESPONSABLE_QUALITE",
+        "checkItems": [
+          "Dimensions conformes (±10mm)",
+          "Aspect de surface acceptable",
+          "Pas de fissures structurelles",
+          "Marquage traçabilité lisible",
+          "Certificat matière béton disponible"
+        ]
+      },
+      "businessRules": {
+        "validation": {
+          "requireQualityApproval": true,
+          "generateCertificate": true
+        },
+        "transitions": {
+          "onApproved": "1012",
+          "onRejected": "rebut_process"
+        }
+      }
+    },
+    
+    {
+      "Etat": "Etape 12",
+      "EtatNom": "PC7 : Contrôle dimensionnel final",
+      "Id_lisible_par_homme": "1012",
+      "TypeEtat": "PointControle",
+      "intro": "Contrôle dimensionnel précis de la dalle avec instruments de mesure calibrés",
+      "questions": [
+        {
+          "ok": "Les dimensions longueur/largeur sont-elles dans les tolérances (±10mm) ?",
+          "ko": "📏 REBUT POTENTIEL - Dimensions hors tolérances, signaler au superviseur"
+        },
+        {
+          "ok": "L'épaisseur est-elle uniforme et conforme au plan (±5mm) ?",
+          "ko": "📐 Mesurer en plusieurs points, documenter les écarts"
+        },
+        {
+          "ok": "Les angles sont-ils droits (tolérance ±2mm sur diagonales) ?",
+          "ko": "🔲 Vérifier l'équerrage, documenter les déformations"
+        },
+        {
+          "ok": "Les inserts de levage sont-ils correctement positionnés (±5mm) ?",
+          "ko": "🎯 Mesurer et documenter les écarts de position"
+        },
+        {
+          "ok": "La planéité générale respecte-t-elle la classe P4 (±5mm/2m) ?",
+          "ko": "📏 Reprendre les mesures avec le niveau laser"
+        }
+      ],
+      "businessRules": {
+        "validation": {
+          "requiredAnswers": "all",
+          "measurementRequired": true,
+          "qualityClass": "P4",
+          "documentsRequired": ["ProcesVerbalMesures"]
+        },
+        "transitions": {
+          "default": "1013",
+          "onMajorDefect": "quality_escalation"
+        }
+      }
+    },
+    
+    {
+      "Etat": "Etape 13",
+      "EtatNom": "PC8 : Test de résistance béton",
+      "Id_lisible_par_homme": "1013",
+      "TypeEtat": "PointControle",
+      "intro": "Contrôle de résistance du béton selon éprouvettes de convenance",
+      "questions": [
+        {
+          "ok": "Les éprouvettes cylindriques (Ø11x22cm) ont-elles été prélevées ?",
+          "ko": "🧪 Impossible de valider sans éprouvettes, process incomplet"
+        },
+        {
+          "ok": "Le test d'écrasement à 28 jours atteint-il fc28 ≥ 25 MPa ?",
+          "ko": "❌ REBUT CERTAIN - Résistance insuffisante, dalle non conforme"
+        },
+        {
+          "ok": "La résistance à 7 jours était-elle ≥ 70% de fc28 ?",
+          "ko": "📊 Retard de montée en résistance, analyser la cause"
+        },
+        {
+          "ok": "Les résultats sont-ils cohérents avec la classe C25/30 ?",
+          "ko": "📈 Écart significatif, vérifier la composition du béton"
+        },
+        {
+          "ok": "Le certificat du laboratoire agréé est-il disponible ?",
+          "ko": "📋 Demander le rapport officiel avant validation finale"
+        }
+      ],
+      "businessRules": {
+        "validation": {
+          "requiredAnswers": "all",
+          "labCertificationRequired": true,
+          "blockingQuestions": [1, 4],
+          "traceabilityLevel": "full"
+        },
+        "transitions": {
+          "default": "1014",
+          "onFailure": "rebut_process_confirmed"
+        }
+      }
+    },
+    
+    {
+      "Etat": "Etape 14",
+      "EtatNom": "PC9 : Préparation expédition",
+      "Id_lisible_par_homme": "1014",
+      "TypeEtat": "PointControle",
+      "intro": "Préparation de la dalle pour expédition - Protection et documentation",
+      "questions": [
+        {
+          "ok": "Les protections d'angles sont-elles installées ?",
+          "ko": "🛡️ Installer les cornières de protection avant manutention"
+        },
+        {
+          "ok": "Le marquage CE et NF est-il visible et lisible ?",
+          "ko": "🏷️ Remarquer la dalle avec les certifications réglementaires"
+        },
+        {
+          "ok": "La fiche technique est-elle attachée à la dalle ?",
+          "ko": "📄 Fixer la fiche technique dans la pochette étanche"
+        },
+        {
+          "ok": "Les points de levage sont-ils signalés clairement ?",
+          "ko": "⚠️ Marquer les points d'élingage avec peinture rouge"
+        },
+        {
+          "ok": "Le poids réel a-t-il été pesé et marqué ?",
+          "ko": "⚖️ Peser la dalle et inscrire le poids sur l'étiquette"
+        },
+        {
+          "ok": "La date de fabrication est-elle marquée (traçabilité) ?",
+          "ko": "📅 Graver ou étiqueter la date de coulage"
+        }
+      ],
+      "businessRules": {
+        "validation": {
+          "requiredAnswers": "all",
+          "regulatoryCompliance": true,
+          "weighingRequired": true
+        },
+        "transitions": {
+          "default": "1015"
+        }
+      }
+    },
+    
+    {
+      "Etat": "Etape 15",
+      "EtatNom": "PA3 : Validation expédition superviseur",
+      "Id_lisible_par_homme": "1015",
+      "TypeEtat": "PointArret",
+      "intro": "VALIDATION FINALE EXPÉDITION - Autorisation de livraison par le superviseur",
+      "questions": [],
+      "supervisorValidation": {
+        "required": true,
+        "minimumRole": "SUPERVISEUR",
+        "finalCheckItems": [
+          "Tous les contrôles qualité passés avec succès",
+          "Documentation complète et conforme",
+          "Dalle correctement protégée et étiquetée",
+          "Résistance béton validée par laboratoire",
+          "Aucun défaut visuel majeur",
+          "Poids et dimensions conformes au bon de commande",
+          "Autorisation d'expédition accordée"
+        ]
+      },
+      "businessRules": {
+        "validation": {
+          "requireFinalApproval": true,
+          "allPreviousStepsCompleted": true,
+          "regulatoryChecksOK": true
+        },
+        "transitions": {
+          "onApproved": "1016",
+          "onRejected": "return_to_quality_control"
+        }
+      }
+    },
+    
+    {
+      "Etat": "Etape 16",
+      "EtatNom": "PC10 : Chargement et expédition",
+      "Id_lisible_par_homme": "1016",
+      "TypeEtat": "PointControle",
+      "intro": "Chargement sécurisé de la dalle sur le moyen de transport",
+      "questions": [
+        {
+          "ok": "Le véhicule de transport est-il adapté au poids (PTAC suffisant) ?",
+          "ko": "🚛 Vérifier la capacité du camion avant chargement"
+        },
+        {
+          "ok": "L'élingage respecte-t-il les points de levage marqués ?",
+          "ko": "🔗 Repositionner les sangles sur les points prévus"
+        },
+        {
+          "ok": "La dalle est-elle calée et sanglée correctement ?",
+          "ko": "🔒 Renforcer le calage pour éviter le glissement"
+        },
+        {
+          "ok": "Les documents de transport sont-ils complets ?",
+          "ko": "📋 Vérifier : BL, CMR, certificats, plan de chargement"
+        },
+        {
+          "ok": "L'opérateur de grue a-t-il validé la manœuvre ?",
+          "ko": "👷 Attendre la validation du chef d'équipe manutention"
+        }
+      ],
+      "businessRules": {
+        "validation": {
+          "requiredAnswers": "all",
+          "safetyCheck": true,
+          "documentsCheck": true
+        },
+        "transitions": {
+          "default": "1017"
+        }
+      }
+    },
+    
+    {
+      "Etat": "Etape 17",
+      "EtatNom": "Terminal : Expédiée",
+      "Id_lisible_par_homme": "1017",
+      "TypeEtat": "Terminal",
+      "intro": "Dalle expédiée avec succès - Process complet terminé",
+      "questions": [],
+      "completion": {
+        "finalStatus": "SHIPPED",
+        "generateDocuments": [
+          "CertificatConformiteComplete",
+          "FicheTracabiliteFull",
+          "BonLivraisonDefinitif",
+          "RapportQualiteComplet",
+          "ProcesVerbalControles"
+        ],
+        "notifySystem": ["ERP_PRODUCTION", "LOGISTIQUE", "COMMERCIAL"],
+        "archiveData": true,
+        "completionTime": "now"
+      },
+      "businessRules": {
+        "transitions": {
+          "default": "end"
+        }
+      }
+    }
+  ],
+  
+  "globalBusinessRules": {
+    "rebutManagement": {
+      "triggers": [
+        "dimensions_non_conformes",
+        "fissures_structurelles", 
+        "beton_non_conforme",
+        "ferraillage_incorrect"
+      ],
+      "process": {
+        "requireSupervisorDecision": true,
+        "notifyURRATS": true,
+        "documentWithPhotos": true,
+        "blockProduction": true
+      }
+    },
+    
+    "qualityTracking": {
+      "mandatoryPhotos": [
+        "ferraillage_avant_coulage",
+        "surface_apres_finition",
+        "dalle_decofrée",
+        "defauts_eventuels"
+      ],
+      "dataToCapture": {
+        "operateur": true,
+        "dateHeure": true,
+        "temperature": true,
+        "numeroLot": true,
+        "numeroBL": true
+      }
+    },
+    
+    "supervisorGates": {
+      "mandatoryValidations": [
+        "PA1_validation_armatures",
+        "PA2_validation_qualite"
+      ],
+      "escalation": {
+        "timeout": "30min",
+        "notifyManager": true
+      }
+    }
+  }
+}

@@ -1,0 +1,1474 @@
+{
+  "_schema": {
+    "version": "1.0.0",
+    "type": "CompleteEnrichedProcess", 
+    "description": "Enriched JSON v2 process definition for ProcessDalle - JSON-driven architecture",
+    "created": "2025-09-04T04:40:00.000Z",
+    "author": "JSON-Driven Architecture System"
+  },
+  
+  "processId": "ProcessDalle",
+  "processType": "ProcessDalle",
+  "processName": "Process de Fabrication Dalle",
+  "processVersion": "2.0.0",
+  
+  "processConfig": {
+    "defaultRenderingStrategy": {
+      "responsive": {
+        "orientation": "landscape",
+        "targetResolution": "1280x800",
+        "minTouchTarget": 56,
+        "minFontSize": 18
+      },
+      "accessibility": {
+        "highContrast": false,
+        "largeFonts": true,
+        "hapticFeedback": true
+      }
+    },
+    "defaultUIMetadata": {
+      "environment": {
+        "type": "workshop",
+        "deviceType": "tablet_landscape",
+        "userContext": "gloved_hands",
+        "orientation": "landscape"
+      }
+    }
+  },
+  
+  "steps": [
+    {
+      "Etat": "Etape 1",
+      "EtatNom": "PC1 : VÉRIFICATION ÉTAPE INITIALE",
+      "Id_lisible_par_homme": "1001",
+      "TypeEtat": "PointControle",
+      "intro": "AVEZ VOUS PRÉPARÉ LE MOULE ?",
+      "questions": [
+        {
+          "ok": "Propreté générale du coffrage",
+          "ko": "Le moule est-il sale ?"
+        },
+        {
+          "ok": "Retirer les résidus de béton précédent",
+          "ko": "Reste-t-il des résidus de béton ?"
+        },
+        {
+          "ok": "État des joints d'étanchéité",
+          "ko": "Les joints d'étanchéité sont-ils en mauvais état ?"
+        },
+        {
+          "ok": "Contrôler les éléments du moule",
+          "ko": "Y a-t-il un problème avec les éléments du moule ?"
+        },
+        {
+          "ok": "Contrôler le système ouverture/fermeture",
+          "ko": "Y a-t-il un problème avec le système d'ouverture/fermeture ?"
+        }
+      ],
+      "CaptureSystem": {
+        "Utilisateur": "",
+        "Date": "",
+        "Time": ""
+      },
+      "ActionSystem": {
+        "Notification URRATS": ""
+      },
+      
+      "renderingStrategy": {
+        "screenType": "PointControleScreen",
+        "layout": "standard_verification",
+        "visual": {
+          "header": {
+            "title": "PC1 : VÉRIFICATION ÉTAPE INITIALE",
+            "subtitle": "Préparation du moule",
+            "showProgress": true,
+            "progressStep": 1,
+            "progressTotal": 11
+          },
+          "icon": {
+            "name": "checklist-outline",
+            "size": 32,
+            "color": "#FF6B00"
+          }
+        },
+        "interaction": {
+          "confirmations": {
+            "requireConfirmation": true,
+            "confirmationMessage": "Confirmer que toutes les vérifications sont OK ?"
+          }
+        },
+        "components": {
+          "showHeader": true,
+          "showFooter": true,
+          "showProgressBar": true,
+          "showBackButton": false,
+          "showHelpButton": true,
+          "showLogoutButton": true
+        },
+        "responsive": {
+          "orientation": "landscape",
+          "targetResolution": "1280x800",
+          "minTouchTarget": 56,
+          "minFontSize": 18
+        },
+        "accessibility": {
+          "highContrast": false,
+          "largeFonts": true,
+          "hapticFeedback": true,
+          "gestureAlternatives": true
+        }
+      },
+      
+      "businessRules": {
+        "rules": [
+          {
+            "id": "all_questions_ok",
+            "name": "All Questions Must Be OK",
+            "description": "All verification questions must be answered OK to proceed",
+            "triggers": {
+              "onUserAction": ["validate_step"]
+            },
+            "condition": {
+              "id": "all_ok_condition",
+              "type": "field_value",
+              "fieldName": "validation_result",
+              "operator": "equals",
+              "expectedValue": "all_ok"
+            },
+            "actionsOnTrue": [
+              {
+                "id": "proceed_next",
+                "type": "navigate_to_step",
+                "targetStepId": "1002"
+              }
+            ],
+            "actionsOnFalse": [
+              {
+                "id": "show_ko_warning",
+                "type": "show_message",
+                "message": "Certaines vérifications sont KO. Veuillez corriger avant de continuer ou contacter un superviseur.",
+                "messageType": "warning",
+                "requireAcknowledgment": true
+              }
+            ],
+            "priority": 100,
+            "enabled": true,
+            "evaluation": {
+              "continueOnError": false
+            }
+          }
+        ],
+        "qualityRules": [
+          {
+            "id": "moule_quality_check",
+            "name": "Moule Quality Verification",
+            "category": "quality",
+            "triggers": {
+              "onUserAction": ["validate_step"]
+            },
+            "condition": {
+              "id": "any_ko_detected",
+              "type": "field_value",
+              "fieldName": "has_ko_answers",
+              "operator": "equals",
+              "expectedValue": true
+            },
+            "actionsOnTrue": [
+              {
+                "id": "urrats_notification",
+                "type": "trigger_notification",
+                "notificationType": "URRATS",
+                "message": "PC1 ProcessDalle - Problème détecté lors de la préparation du moule",
+                "urgency": "medium"
+              }
+            ],
+            "priority": 200,
+            "enabled": true,
+            "evaluation": {
+              "continueOnError": true
+            },
+            "qualityMetrics": {
+              "criticalityLevel": "MEDIUM"
+            },
+            "rebutHandling": {
+              "requireSupervisorConfirmation": true,
+              "urraitsNotification": true
+            }
+          }
+        ],
+        "globalSettings": {
+          "evaluationMode": "immediate",
+          "errorHandling": "continue_on_error",
+          "logLevel": "info"
+        },
+        "context": {
+          "processId": "ProcessDalle",
+          "processType": "ProcessDalle",
+          "stepId": "1001",
+          "environmentType": "production"
+        }
+      },
+      
+      "navigation": {
+        "stepId": "1001",
+        "processId": "ProcessDalle",
+        "primaryNavigation": {
+          "type": "conditional",
+          "conditional": {
+            "id": "pc1_completion",
+            "condition": {
+              "id": "all_verifications_ok",
+              "type": "field_value",
+              "fieldName": "validation_result",
+              "operator": "equals",
+              "expectedValue": "all_ok"
+            },
+            "targetOnTrue": {
+              "id": "next_step",
+              "type": "step",
+              "stepId": "1002",
+              "mode": "push",
+              "transition": {
+                "animation": "slide",
+                "duration": 300,
+                "direction": "left"
+              }
+            },
+            "targetOnFalse": {
+              "id": "stay_current",
+              "type": "step", 
+              "stepId": "1001",
+              "mode": "replace"
+            },
+            "evaluation": {
+              "evaluateOnce": false,
+              "reevaluateOnChange": true
+            }
+          }
+        },
+        "alternativeNavigation": {
+          "onError": {
+            "id": "error_screen",
+            "type": "screen",
+            "screenName": "ErrorScreen",
+            "mode": "modal"
+          }
+        },
+        "history": {
+          "trackHistory": true,
+          "backButton": {
+            "enabled": false
+          }
+        },
+        "settings": {
+          "defaultTransition": {
+            "animation": "slide",
+            "duration": 300
+          },
+          "onNavigationError": "retry",
+          "maxRetries": 3
+        },
+        "context": {
+          "processType": "ProcessDalle",
+          "deviceInfo": {
+            "type": "tablet",
+            "orientation": "landscape"
+          }
+        }
+      },
+      
+      "uiMetadata": {
+        "environment": {
+          "type": "workshop",
+          "deviceType": "tablet_landscape", 
+          "userContext": "gloved_hands",
+          "orientation": "landscape"
+        },
+        "touchTargets": {
+          "minSize": {
+            "gloved": 56,
+            "bareHanded": 44,
+            "precision": 32
+          },
+          "spacing": {
+            "minGap": 16,
+            "edgeMargin": 24,
+            "safeZone": 32
+          },
+          "behavior": {
+            "hapticFeedback": true,
+            "visualFeedback": true,
+            "longPressDelay": 800,
+            "doubleTapDelay": 400
+          },
+          "gestures": {
+            "swipeEnabled": true,
+            "pinchZoomEnabled": false,
+            "rotationEnabled": false,
+            "multiTouchEnabled": false
+          }
+        },
+        "typography": {
+          "fontSize": {
+            "minimum": 18,
+            "body": 18,
+            "heading": 24,
+            "button": 18,
+            "critical": 22,
+            "status": 20
+          },
+          "fontWeight": {
+            "normal": 400,
+            "emphasis": 600,
+            "critical": 700,
+            "button": 600
+          },
+          "lineHeight": {
+            "body": 1.5,
+            "heading": 1.3,
+            "button": 1.2
+          },
+          "fontFamily": {
+            "primary": "System",
+            "fallback": ["Arial", "Helvetica", "sans-serif"],
+            "monospace": "Consolas"
+          },
+          "contrast": {
+            "minimum": 4.5,
+            "enhanced": 7.0,
+            "criticalInfo": 7.0
+          }
+        },
+        "colors": {
+          "brand": {
+            "primary": "#FF6B00",
+            "secondary": "#F59E0B",
+            "accent": "#10B981",
+            "logo": "#FF6B00"
+          },
+          "status": {
+            "success": "#10B981",
+            "warning": "#F59E0B",
+            "error": "#DC2626",
+            "info": "#3B82F6",
+            "pending": "#6B7280",
+            "rebut": "#DC2626"
+          },
+          "background": {
+            "main": "#F8FAFC",
+            "card": "#FFFFFF",
+            "section": "#F1F5F9",
+            "overlay": "rgba(0,0,0,0.5)",
+            "disabled": "#F3F4F6"
+          },
+          "text": {
+            "primary": "#1F2937",
+            "secondary": "#6B7280",
+            "tertiary": "#9CA3AF",
+            "inverse": "#FFFFFF",
+            "muted": "#D1D5DB",
+            "critical": "#DC2626"
+          }
+        },
+        "responsive": {
+          "breakpoints": {
+            "tablet": 1280,
+            "phone": 480
+          },
+          "scaleFactor": 1.0,
+          "adaptiveLayout": true
+        },
+        "industrial": {
+          "brightModeSupport": true,
+          "vibrationResistance": true,
+          "temperatureCompensation": true,
+          "emergencyStop": {
+            "enabled": true,
+            "buttonSize": 80,
+            "color": "#DC2626",
+            "position": "top-right"
+          },
+          "notifications": {
+            "visualAlerts": true,
+            "hapticAlerts": true,
+            "audioAlerts": false,
+            "urgencyLevels": ["low", "medium", "high", "critical"]
+          }
+        }
+      },
+      
+      "validation": {
+        "stepId": "1001",
+        "processId": "ProcessDalle",
+        "processType": "ProcessDalle",
+        "fields": [
+          {
+            "fieldName": "question_responses",
+            "displayName": "Réponses aux vérifications",
+            "rules": [
+              {
+                "id": "all_questions_answered",
+                "type": "required",
+                "severity": "error",
+                "timing": "onSubmit",
+                "message": "Toutes les vérifications doivent être répondues (OK ou KO).",
+                "enabled": true,
+                "required": true,
+                "settings": {
+                  "allowEmpty": false,
+                  "allowWhitespace": false
+                }
+              }
+            ],
+            "settings": {
+              "highlightErrors": true,
+              "showErrorIcon": true,
+              "showSuccessIcon": true
+            },
+            "errorDisplay": {
+              "position": "below",
+              "showFieldName": true
+            }
+          }
+        ],
+        "qualityControl": [
+          {
+            "id": "moule_preparation_quality",
+            "type": "business_logic",
+            "severity": "warning",
+            "timing": "onSubmit",
+            "message": "Contrôles qualité de préparation du moule",
+            "enabled": true,
+            "required": false,
+            "qualitySettings": {
+              "processType": "ProcessDalle",
+              "controlType": "visual",
+              "visualInspection": {
+                "requiredPhotos": 0,
+                "requiredViews": ["general", "joints", "ouverture"]
+              },
+              "structuralChecks": {
+                "reinforcement": false,
+                "formwork": true,
+                "surface": true,
+                "dimensions": false
+              }
+            }
+          }
+        ],
+        "globalSettings": {
+          "maxValidationTime": 30000,
+          "continueOnError": false,
+          "collectAllErrors": true,
+          "enableCaching": false,
+          "cacheExpiration": 0,
+          "logLevel": "info"
+        },
+        "context": {
+          "userRole": "OPERATEUR",
+          "environmentType": "production"
+        }
+      },
+      
+      "metadata": {
+        "version": "2.0.0",
+        "createdAt": "2025-09-04T04:40:00.000Z",
+        "updatedAt": "2025-09-04T04:40:00.000Z",
+        "author": "JSON-Driven Architecture",
+        "description": "PC1 Vérification étape initiale - Préparation du moule pour ProcessDalle",
+        "tags": ["point-controle", "preparation", "moule", "dalle"]
+      }
+    },
+    
+    {
+      "Etat": "Etape 2",
+      "EtatNom": "PC2 : VÉRIFICATION ACIER",
+      "Id_lisible_par_homme": "1002", 
+      "TypeEtat": "PointControle",
+      "intro": "AVEZ-VOUS PLACÉ LES ACIERS SUIVANT PLAN ?",
+      "questions": [
+        {
+          "ok": "Conforme au plan",
+          "ko": "Non conforme au plan ?"
+        }
+      ],
+      "CaptureSystem": {
+        "Utilisateur": "",
+        "Date": "",
+        "Time": ""
+      },
+      "ActionSystem": {
+        "Notification URRATS": ""
+      },
+      
+      "renderingStrategy": {
+        "screenType": "PointControleScreen",
+        "layout": "acier_verification",
+        "visual": {
+          "header": {
+            "title": "PC2 : VÉRIFICATION ACIER",
+            "subtitle": "Vérification placement des aciers",
+            "showProgress": true,
+            "progressStep": 2,
+            "progressTotal": 11
+          },
+          "icon": {
+            "name": "construct-outline",
+            "size": 32,
+            "color": "#FF6B00"
+          }
+        },
+        "interaction": {
+          "confirmations": {
+            "requireConfirmation": true,
+            "confirmationMessage": "Confirmer que le placement des aciers est conforme au plan ?"
+          }
+        },
+        "components": {
+          "showHeader": true,
+          "showFooter": true,
+          "showProgressBar": true,
+          "showBackButton": true,
+          "showHelpButton": true,
+          "showLogoutButton": true
+        },
+        "responsive": {
+          "orientation": "landscape",
+          "targetResolution": "1280x800",
+          "minTouchTarget": 56,
+          "minFontSize": 18
+        },
+        "accessibility": {
+          "highContrast": false,
+          "largeFonts": true,
+          "hapticFeedback": true,
+          "gestureAlternatives": true
+        }
+      },
+      
+      "businessRules": {
+        "rules": [
+          {
+            "id": "acier_conformity_check",
+            "name": "Steel Conformity Check", 
+            "description": "Check steel placement conformity to plan",
+            "triggers": {
+              "onUserAction": ["validate_step"]
+            },
+            "condition": {
+              "id": "acier_ok",
+              "type": "field_value",
+              "fieldName": "acier_conforme",
+              "operator": "equals",
+              "expectedValue": "ok"
+            },
+            "actionsOnTrue": [
+              {
+                "id": "proceed_pc3",
+                "type": "navigate_to_step",
+                "targetStepId": "1003"
+              }
+            ],
+            "actionsOnFalse": [
+              {
+                "id": "acier_ko_warning",
+                "type": "show_message",
+                "message": "Placement des aciers non conforme au plan. Correction nécessaire.",
+                "messageType": "error",
+                "requireAcknowledgment": true
+              },
+              {
+                "id": "urrats_acier_alert",
+                "type": "trigger_notification",
+                "notificationType": "URRATS",
+                "message": "PC2 ProcessDalle - Aciers non conformes au plan",
+                "urgency": "high"
+              }
+            ],
+            "priority": 100,
+            "enabled": true,
+            "evaluation": {
+              "continueOnError": false
+            }
+          }
+        ],
+        "qualityRules": [
+          {
+            "id": "acier_quality_control",
+            "name": "Steel Quality Control",
+            "category": "quality",
+            "triggers": {
+              "onUserAction": ["validate_step"]
+            },
+            "condition": {
+              "id": "acier_ko_detected",
+              "type": "field_value",
+              "fieldName": "acier_conforme",
+              "operator": "equals",
+              "expectedValue": "ko"
+            },
+            "actionsOnTrue": [
+              {
+                "id": "require_supervisor_validation",
+                "type": "require_confirmation",
+                "confirmationMessage": "Aciers non conformes détectés. Validation superviseur requise.",
+                "onConfirm": [
+                  {
+                    "id": "escalate_to_supervisor",
+                    "type": "custom_function",
+                    "functionName": "requireSupervisorValidation"
+                  }
+                ]
+              }
+            ],
+            "priority": 200,
+            "enabled": true,
+            "evaluation": {
+              "continueOnError": true
+            },
+            "qualityMetrics": {
+              "criticalityLevel": "HIGH"
+            },
+            "rebutHandling": {
+              "requireSupervisorConfirmation": true,
+              "urraitsNotification": true
+            }
+          }
+        ],
+        "globalSettings": {
+          "evaluationMode": "immediate",
+          "errorHandling": "stop_on_error",
+          "logLevel": "info"
+        },
+        "context": {
+          "processId": "ProcessDalle",
+          "processType": "ProcessDalle",
+          "stepId": "1002",
+          "environmentType": "production"
+        }
+      },
+      
+      "navigation": {
+        "stepId": "1002",
+        "processId": "ProcessDalle",
+        "primaryNavigation": {
+          "type": "conditional",
+          "conditional": {
+            "id": "acier_validation",
+            "condition": {
+              "id": "acier_conforme_check",
+              "type": "field_value",
+              "fieldName": "acier_conforme",
+              "operator": "equals",
+              "expectedValue": "ok"
+            },
+            "targetOnTrue": {
+              "id": "continue_to_pc3",
+              "type": "step",
+              "stepId": "1003",
+              "mode": "push"
+            },
+            "targetOnFalse": {
+              "id": "stay_for_correction",
+              "type": "step",
+              "stepId": "1002",
+              "mode": "replace"
+            },
+            "evaluation": {
+              "evaluateOnce": false,
+              "reevaluateOnChange": true
+            }
+          }
+        },
+        "history": {
+          "trackHistory": true,
+          "backButton": {
+            "enabled": true,
+            "target": {
+              "id": "back_to_pc1",
+              "type": "step",
+              "stepId": "1001",
+              "mode": "pop"
+            }
+          }
+        },
+        "settings": {
+          "defaultTransition": {
+            "animation": "slide",
+            "duration": 300
+          },
+          "onNavigationError": "retry",
+          "maxRetries": 3
+        },
+        "context": {
+          "processType": "ProcessDalle"
+        }
+      },
+      
+      "uiMetadata": {
+        "environment": {
+          "type": "workshop",
+          "deviceType": "tablet_landscape",
+          "userContext": "gloved_hands",
+          "orientation": "landscape"
+        },
+        "components": {
+          "header": {
+            "showLogo": true,
+            "showTitle": true,
+            "showSubtitle": true,
+            "showProgress": true,
+            "height": 80,
+            "backgroundColor": "#FFFFFF",
+            "textColor": "#1F2937"
+          },
+          "buttons": {
+            "primary": {
+              "backgroundColor": "#FF6B00",
+              "textColor": "#FFFFFF",
+              "borderRadius": 8,
+              "minHeight": 56,
+              "minWidth": 120
+            },
+            "secondary": {
+              "backgroundColor": "transparent",
+              "textColor": "#FF6B00",
+              "borderColor": "#FF6B00",
+              "borderRadius": 8,
+              "minHeight": 56,
+              "minWidth": 120
+            }
+          }
+        }
+      },
+      
+      "validation": {
+        "stepId": "1002",
+        "processId": "ProcessDalle",
+        "processType": "ProcessDalle",
+        "fields": [
+          {
+            "fieldName": "acier_conforme",
+            "displayName": "Conformité des aciers",
+            "rules": [
+              {
+                "id": "acier_response_required",
+                "type": "required",
+                "severity": "error",
+                "timing": "onSubmit",
+                "message": "Vous devez indiquer si les aciers sont conformes au plan.",
+                "enabled": true,
+                "required": true,
+                "settings": {
+                  "allowEmpty": false,
+                  "allowWhitespace": false
+                }
+              }
+            ],
+            "settings": {
+              "highlightErrors": true,
+              "showErrorIcon": true
+            },
+            "errorDisplay": {
+              "position": "below"
+            }
+          }
+        ],
+        "qualityControl": [
+          {
+            "id": "acier_quality_validation",
+            "type": "business_logic",
+            "severity": "error",
+            "timing": "onSubmit",
+            "message": "Contrôle qualité placement des aciers",
+            "enabled": true,
+            "required": true,
+            "qualitySettings": {
+              "processType": "ProcessDalle",
+              "controlType": "structural",
+              "structuralChecks": {
+                "reinforcement": true,
+                "formwork": false,
+                "surface": false,
+                "dimensions": true
+              }
+            }
+          }
+        ],
+        "globalSettings": {
+          "maxValidationTime": 30000,
+          "continueOnError": false,
+          "collectAllErrors": true,
+          "enableCaching": false,
+          "cacheExpiration": 0
+        },
+        "context": {
+          "environmentType": "production"
+        }
+      },
+      
+      "metadata": {
+        "version": "2.0.0",
+        "createdAt": "2025-09-04T04:40:00.000Z",
+        "updatedAt": "2025-09-04T04:40:00.000Z",
+        "author": "JSON-Driven Architecture",
+        "description": "PC2 Vérification acier - Contrôle placement des aciers selon plan",
+        "tags": ["point-controle", "acier", "structural", "dalle"]
+      }
+    },
+    
+    {
+      "Etat": "Etape 8",
+      "EtatNom": "PA1 : VALIDATION AVANT INSERTION",
+      "Id_lisible_par_homme": "1008",
+      "TypeEtat": "PointArret",
+      "intro": null,
+      "questions": null,
+      "CaptureSystem": {
+        "Utilisateur": "",
+        "_Utilisateur_role_requirement": "doit être un role supérieur à opérateur",
+        "Date": "",
+        "Time": ""
+      },
+      "CaptureUser": {
+        "CONFORME ?": "",
+        "_CONFORME_notes": "OUI ou REBUT",
+        "SÉGRÉGATION ET/OU BULLAGE MINEUR ?": "",
+        "_SEGREGATION_notes": "OUI ou NON",
+        "BESOIN DE FINITION ?": "",
+        "_BESOIN_DE_FINITION_notes": "OUI ou NON",
+        "Observation ?": "",
+        "_Observation_type": "String",
+        "_CaptureUser_values": [
+          {
+            "field": "CONFORME ?",
+            "options": ["OUI", "REBUT"]
+          },
+          {
+            "field": "SÉGRÉGATION ET/OU BULLAGE MINEUR ?",
+            "options": ["OUI", "NON"]
+          },
+          {
+            "field": "BESOIN DE FINITION ?",
+            "options": ["OUI", "NON"]
+          }
+        ],
+        "_flow_logic": [
+          "Si 'CONFORME ?' = REBUT ALORS Pièce courante devient Etat REBUT",
+          "Si 'CONFORME ?' = OUI ET 'BESOIN DE FINITION ?' = OUI ALORS Etape 9",
+          "Si 'CONFORME ?' = OUI ET 'BESOIN DE FINITION ?' = NON ALORS Etape 11"
+        ]
+      },
+      "ActionSystem": {
+        "Notification URRATS": ""
+      },
+      
+      "renderingStrategy": {
+        "screenType": "PointArretScreen",
+        "layout": "supervisor_validation",
+        "visual": {
+          "header": {
+            "title": "PA1 : VALIDATION AVANT INSERTION",
+            "subtitle": "⚠️ Authentification superviseur requise",
+            "showProgress": true,
+            "progressStep": 8,
+            "progressTotal": 11
+          },
+          "colorScheme": {
+            "primary": "#DC2626",
+            "accent": "#FFA500"
+          },
+          "icon": {
+            "name": "shield-checkmark-outline",
+            "size": 40,
+            "color": "#DC2626"
+          }
+        },
+        "interaction": {
+          "confirmations": {
+            "requireConfirmation": true,
+            "doubleConfirm": true,
+            "confirmationMessage": "Confirmer la validation superviseur pour cette étape critique ?"
+          },
+          "timeout": {
+            "enabled": true,
+            "duration": 300000,
+            "warningAt": 240000,
+            "timeoutAction": "logout"
+          }
+        },
+        "components": {
+          "showHeader": true,
+          "showFooter": true,
+          "showProgressBar": false,
+          "showBackButton": true,
+          "showHelpButton": true,
+          "showLogoutButton": true
+        },
+        "responsive": {
+          "orientation": "landscape",
+          "targetResolution": "1280x800",
+          "minTouchTarget": 64,
+          "minFontSize": 20
+        },
+        "accessibility": {
+          "highContrast": true,
+          "largeFonts": true,
+          "hapticFeedback": true,
+          "gestureAlternatives": true
+        }
+      },
+      
+      "businessRules": {
+        "rules": [
+          {
+            "id": "supervisor_authentication_required",
+            "name": "Supervisor Authentication Required",
+            "description": "PA1 requires supervisor role or higher",
+            "triggers": {
+              "onScreenLoad": true
+            },
+            "condition": {
+              "id": "supervisor_role_check",
+              "type": "user_role",
+              "requiredRole": "SUPERVISEUR",
+              "allowHigherRoles": true
+            },
+            "actionsOnTrue": [
+              {
+                "id": "enable_pa1_form",
+                "type": "set_field_value",
+                "fieldName": "supervisor_authenticated",
+                "value": true
+              }
+            ],
+            "actionsOnFalse": [
+              {
+                "id": "block_pa1_access",
+                "type": "show_message",
+                "message": "Authentification superviseur requise pour accéder à PA1.",
+                "messageType": "error",
+                "requireAcknowledgment": true
+              }
+            ],
+            "priority": 500,
+            "enabled": true,
+            "evaluation": {
+              "continueOnError": false
+            }
+          },
+          {
+            "id": "pa1_decision_logic",
+            "name": "PA1 Decision Logic",
+            "description": "Handle PA1 branching logic based on supervisor decisions",
+            "triggers": {
+              "onUserAction": ["validate_decision"]
+            },
+            "condition": {
+              "id": "complex_pa1_logic",
+              "operator": "and",
+              "conditions": [
+                {
+                  "id": "conformity_check",
+                  "type": "field_value",
+                  "fieldName": "CONFORME",
+                  "operator": "not_equals",
+                  "expectedValue": "REBUT"
+                }
+              ]
+            },
+            "actionsOnTrue": [
+              {
+                "id": "determine_next_step",
+                "type": "custom_function",
+                "functionName": "determinePA1NextStep",
+                "parameters": {
+                  "conformeValue": "{{CONFORME}}",
+                  "besoinFinitionValue": "{{BESOIN_DE_FINITION}}"
+                }
+              }
+            ],
+            "actionsOnFalse": [
+              {
+                "id": "handle_rebut",
+                "type": "navigate_to_step",
+                "targetStepId": "999"
+              },
+              {
+                "id": "rebut_urrats_notification",
+                "type": "trigger_notification",
+                "notificationType": "URRATS",
+                "message": "PA1 ProcessDalle - Pièce mise au REBUT par superviseur",
+                "urgency": "critical"
+              }
+            ],
+            "priority": 300,
+            "enabled": true,
+            "evaluation": {
+              "continueOnError": false
+            }
+          }
+        ],
+        "urratsRules": [
+          {
+            "id": "pa1_rebut_urrats",
+            "name": "PA1 REBUT URRATS Notification",
+            "category": "urrats",
+            "triggers": {
+              "onFieldChange": ["CONFORME"]
+            },
+            "condition": {
+              "id": "rebut_selected",
+              "type": "field_value",
+              "fieldName": "CONFORME",
+              "operator": "equals",
+              "expectedValue": "REBUT"
+            },
+            "actionsOnTrue": [
+              {
+                "id": "immediate_urrats",
+                "type": "trigger_notification",
+                "notificationType": "URRATS",
+                "message": "REBUT PA1 ProcessDalle - Validation superviseur négative",
+                "urgency": "critical"
+              }
+            ],
+            "priority": 400,
+            "enabled": true,
+            "evaluation": {
+              "continueOnError": true
+            },
+            "urgency": "CRITICAL",
+            "escalationLevel": 3,
+            "notification": {
+              "immediate": true,
+              "channels": ["email", "system", "dashboard"],
+              "recipients": {
+                "supervisors": true,
+                "qualityTeam": true
+              }
+            }
+          }
+        ],
+        "globalSettings": {
+          "evaluationMode": "immediate",
+          "errorHandling": "stop_on_error",
+          "logLevel": "info"
+        },
+        "context": {
+          "processId": "ProcessDalle",
+          "processType": "ProcessDalle",
+          "stepId": "1008",
+          "userRole": "SUPERVISEUR",
+          "environmentType": "production"
+        }
+      },
+      
+      "navigation": {
+        "stepId": "1008",
+        "processId": "ProcessDalle",
+        "primaryNavigation": {
+          "type": "branching",
+          "branching": {
+            "id": "pa1_decision_branches",
+            "branches": [
+              {
+                "id": "rebut_branch",
+                "name": "REBUT",
+                "description": "Pièce non conforme - mise au rebut",
+                "condition": {
+                  "id": "rebut_decision",
+                  "type": "field_value",
+                  "fieldName": "CONFORME",
+                  "operator": "equals",
+                  "expectedValue": "REBUT"
+                },
+                "target": {
+                  "id": "go_to_rebut",
+                  "type": "step",
+                  "stepId": "999",
+                  "mode": "push"
+                },
+                "priority": 100,
+                "visual": {
+                  "icon": "warning-outline",
+                  "color": "#DC2626",
+                  "buttonText": "REBUT"
+                }
+              },
+              {
+                "id": "finition_required_branch",
+                "name": "Finition Requise",
+                "description": "Conforme avec besoin de finition",
+                "condition": {
+                  "id": "finition_needed",
+                  "operator": "and",
+                  "conditions": [
+                    {
+                      "id": "conforme_ok",
+                      "type": "field_value",
+                      "fieldName": "CONFORME",
+                      "operator": "equals",
+                      "expectedValue": "OUI"
+                    },
+                    {
+                      "id": "finition_yes",
+                      "type": "field_value",
+                      "fieldName": "BESOIN_DE_FINITION",
+                      "operator": "equals",
+                      "expectedValue": "OUI"
+                    }
+                  ]
+                },
+                "target": {
+                  "id": "go_to_pc8",
+                  "type": "step",
+                  "stepId": "10091",
+                  "mode": "push"
+                },
+                "priority": 200,
+                "visual": {
+                  "icon": "construct-outline",
+                  "color": "#F59E0B",
+                  "buttonText": "Finition"
+                }
+              },
+              {
+                "id": "direct_insertion_branch",
+                "name": "Insertion Directe",
+                "description": "Conforme sans finition - insertion directe",
+                "condition": {
+                  "id": "direct_insertion",
+                  "operator": "and",
+                  "conditions": [
+                    {
+                      "id": "conforme_ok",
+                      "type": "field_value",
+                      "fieldName": "CONFORME",
+                      "operator": "equals",
+                      "expectedValue": "OUI"
+                    },
+                    {
+                      "id": "finition_no",
+                      "type": "field_value",
+                      "fieldName": "BESOIN_DE_FINITION",
+                      "operator": "equals",
+                      "expectedValue": "NON"
+                    }
+                  ]
+                },
+                "target": {
+                  "id": "go_to_pc11",
+                  "type": "step",
+                  "stepId": "10111",
+                  "mode": "push"
+                },
+                "priority": 300,
+                "visual": {
+                  "icon": "checkmark-circle-outline",
+                  "color": "#10B981",
+                  "buttonText": "Insertion"
+                }
+              }
+            ],
+            "behavior": {
+              "evaluationOrder": "priority",
+              "allowMultipleMatches": false,
+              "requireExplicitChoice": true
+            },
+            "selectionUI": {
+              "displayType": "cards",
+              "layout": "horizontal",
+              "showDescription": true,
+              "showIcons": true
+            }
+          }
+        },
+        "guards": [
+          {
+            "id": "supervisor_auth_guard",
+            "condition": {
+              "id": "not_supervisor",
+              "type": "user_role",
+              "requiredRole": "OPERATEUR"
+            },
+            "onBlock": {
+              "showMessage": "Authentification superviseur requise pour PA1.",
+              "messageType": "error",
+              "requireConfirmation": true
+            },
+            "priority": 100
+          }
+        ],
+        "history": {
+          "trackHistory": true,
+          "backButton": {
+            "enabled": true,
+            "confirmBeforeBack": true,
+            "confirmationMessage": "Êtes-vous sûr de vouloir annuler cette validation superviseur ?"
+          }
+        },
+        "settings": {
+          "defaultTransition": {
+            "animation": "slide",
+            "duration": 300
+          },
+          "confirmBeforeNavigate": true,
+          "confirmationMessage": "Confirmer votre décision ?",
+          "onNavigationError": "retry"
+        },
+        "context": {
+          "userRole": "SUPERVISEUR",
+          "processType": "ProcessDalle"
+        }
+      },
+      
+      "uiMetadata": {
+        "environment": {
+          "type": "workshop",
+          "deviceType": "tablet_landscape",
+          "userContext": "bare_hands",
+          "orientation": "landscape"
+        },
+        "components": {
+          "header": {
+            "showLogo": true,
+            "showTitle": true,
+            "showSubtitle": true,
+            "showProgress": true,
+            "height": 90,
+            "backgroundColor": "#FEF2F2",
+            "textColor": "#DC2626"
+          },
+          "buttons": {
+            "primary": {
+              "backgroundColor": "#DC2626",
+              "textColor": "#FFFFFF",
+              "borderRadius": 8,
+              "minHeight": 64,
+              "minWidth": 140
+            },
+            "secondary": {
+              "backgroundColor": "#F59E0B",
+              "textColor": "#FFFFFF",
+              "borderRadius": 8,
+              "minHeight": 64,
+              "minWidth": 140
+            },
+            "danger": {
+              "backgroundColor": "#DC2626",
+              "textColor": "#FFFFFF",
+              "borderRadius": 8,
+              "minHeight": 64,
+              "minWidth": 140
+            }
+          },
+          "forms": {
+            "inputHeight": 64,
+            "labelFontSize": 20,
+            "borderRadius": 8,
+            "borderColor": "#DC2626",
+            "focusBorderColor": "#DC2626",
+            "errorBorderColor": "#DC2626",
+            "backgroundColor": "#FFFFFF",
+            "placeholderColor": "#9CA3AF"
+          },
+          "cards": {
+            "backgroundColor": "#FFFFFF",
+            "borderRadius": 12,
+            "padding": 24,
+            "margin": 16,
+            "shadowLevel": "large",
+            "borderColor": "#DC2626"
+          }
+        },
+        "industrial": {
+          "emergencyStop": {
+            "enabled": true,
+            "buttonSize": 100,
+            "color": "#DC2626",
+            "position": "top-right"
+          },
+          "notifications": {
+            "visualAlerts": true,
+            "hapticAlerts": true,
+            "audioAlerts": true,
+            "urgencyLevels": ["critical"]
+          }
+        }
+      },
+      
+      "validation": {
+        "stepId": "1008",
+        "processId": "ProcessDalle",
+        "processType": "ProcessDalle",
+        "fields": [
+          {
+            "fieldName": "supervisor_authentication",
+            "displayName": "Authentification superviseur",
+            "rules": [
+              {
+                "id": "supervisor_auth_check",
+                "type": "external",
+                "severity": "error",
+                "timing": "onSubmit",
+                "message": "Authentification superviseur requise.",
+                "enabled": true,
+                "required": true,
+                "settings": {
+                  "apiEndpoint": "/api/auth/validate-supervisor",
+                  "method": "POST",
+                  "payload": {
+                    "stepId": "1008",
+                    "requiredRole": "SUPERVISEUR"
+                  },
+                  "successCondition": {
+                    "field": "authenticated",
+                    "value": true,
+                    "operator": "equals"
+                  },
+                  "timeout": 10000,
+                  "retries": 2,
+                  "cacheResult": false,
+                  "cacheDuration": 0
+                }
+              }
+            ],
+            "settings": {
+              "highlightErrors": true,
+              "showErrorIcon": true
+            },
+            "errorDisplay": {
+              "position": "below"
+            }
+          },
+          {
+            "fieldName": "CONFORME",
+            "displayName": "Conformité de la pièce",
+            "rules": [
+              {
+                "id": "conformity_decision_required",
+                "type": "required",
+                "severity": "error",
+                "timing": "onSubmit",
+                "message": "Vous devez indiquer si la pièce est conforme (OUI ou REBUT).",
+                "enabled": true,
+                "required": true,
+                "settings": {
+                  "allowEmpty": false,
+                  "allowWhitespace": false,
+                  "customEmptyValues": [null, "", "N/A"]
+                }
+              }
+            ],
+            "settings": {
+              "highlightErrors": true,
+              "showErrorIcon": true,
+              "showSuccessIcon": true
+            },
+            "errorDisplay": {
+              "position": "below",
+              "showFieldName": true
+            }
+          },
+          {
+            "fieldName": "BESOIN_DE_FINITION",
+            "displayName": "Besoin de finition",
+            "rules": [
+              {
+                "id": "finition_decision_conditional",
+                "type": "cross_field",
+                "severity": "error",
+                "timing": "onSubmit",
+                "message": "Vous devez indiquer si un besoin de finition est nécessaire.",
+                "enabled": true,
+                "required": false,
+                "condition": {
+                  "field": "CONFORME",
+                  "value": "OUI",
+                  "operator": "equals"
+                },
+                "settings": {
+                  "targetField": "CONFORME",
+                  "comparison": "equals",
+                  "dataType": "string"
+                }
+              }
+            ],
+            "settings": {
+              "highlightErrors": true,
+              "showErrorIcon": true
+            },
+            "errorDisplay": {
+              "position": "below"
+            }
+          }
+        ],
+        "rebutValidation": [
+          {
+            "id": "pa1_rebut_validation",
+            "type": "business_logic",
+            "severity": "error",
+            "timing": "onSubmit",
+            "message": "Validation REBUT superviseur",
+            "enabled": true,
+            "required": true,
+            "condition": {
+              "field": "CONFORME",
+              "value": "REBUT",
+              "operator": "equals"
+            },
+            "rebutSettings": {
+              "requiresPhotos": true,
+              "minPhotos": 2,
+              "requiresDescription": true,
+              "minDescriptionLength": 20,
+              "defectCategories": ["Dimensionnel", "Visuel", "Structurel", "Matériau", "Surface"],
+              "requireCategory": true,
+              "requiresSupervisorApproval": true,
+              "requiresQualityTeamApproval": true,
+              "urratsNotification": true,
+              "urgencyLevel": "CRITICAL"
+            }
+          }
+        ],
+        "globalSettings": {
+          "maxValidationTime": 120000,
+          "continueOnError": false,
+          "collectAllErrors": true,
+          "enableCaching": false,
+          "cacheExpiration": 0,
+          "logLevel": "info"
+        },
+        "context": {
+          "userRole": "SUPERVISEUR",
+          "environmentType": "production"
+        }
+      },
+      
+      "metadata": {
+        "version": "2.0.0",
+        "createdAt": "2025-09-04T04:40:00.000Z",
+        "updatedAt": "2025-09-04T04:40:00.000Z",
+        "author": "JSON-Driven Architecture",
+        "description": "PA1 Validation superviseur avant insertion - Point d'arrêt critique avec logique de branchement",
+        "tags": ["point-arret", "supervisor", "validation", "branching", "dalle"]
+      }
+    }
+  ],
+  
+  "metadata": {
+    "version": "2.0.0",
+    "createdAt": "2025-09-04T04:40:00.000Z",
+    "updatedAt": "2025-09-04T04:40:00.000Z",
+    "author": "JSON-Driven Architecture System",
+    "description": "Enriched ProcessDalle v2 - Complete JSON-driven process definition with 100% backward compatibility",
+    "tags": ["process-dalle", "enriched-json", "json-driven-architecture", "industrial"],
+    "targetIndustry": "concrete_manufacturing",
+    "targetEnvironment": "workshop",
+    "targetDevice": "tablet_landscape",
+    "qualityStandards": ["ISO9001", "URRATS"],
+    "certifications": ["Duhalde_Quality_Process_v2"],
+    "auditTrail": true
+  }
+}

@@ -1,0 +1,929 @@
+{
+  "_schema": {
+    "version": "1.0.0",
+    "type": "CompleteEnrichedProcess", 
+    "description": "Enriched JSON v3 process definition for ProcessEnveloppe - JSON-driven architecture with specialized questions",
+    "created": "2025-09-04T10:45:00.000Z",
+    "author": "JSON-Driven Architecture System"
+  },
+  
+  "processId": "ProcessEnveloppe",
+  "processType": "ProcessEnveloppe",
+  "processName": "Process de Fabrication Enveloppe Béton",
+  "processVersion": "3.0.0",
+  "name": "Process Enveloppe - Spécialisé Manutention et Finitions",
+  "description": "Processus complet de fabrication d'enveloppes béton préfabriquées avec focus sur manutention industrielle et finitions spécialisées",
+  
+  "processConfig": {
+    "defaultRenderingStrategy": {
+      "responsive": {
+        "orientation": "landscape",
+        "targetResolution": "1280x800",
+        "minTouchTarget": 56,
+        "minFontSize": 18
+      },
+      "accessibility": {
+        "highContrast": false,
+        "largeFonts": true,
+        "hapticFeedback": true
+      }
+    },
+    "questionMode": "ok-ko",
+    "allowPartialValidation": false,
+    "requireSupervisorValidation": true,
+    "specializedFeatures": ["manutention_lourde", "finitions_complexes", "geometrie_variable"]
+  },
+  
+  "steps": [
+    {
+      "Etat": "Etape 1",
+      "EtatNom": "PC1 : Préparation moule et géométrie variable",
+      "Id_lisible_par_homme": "3001",
+      "TypeEtat": "PointControle",
+      "intro": "PRÉPARATION SPÉCIALISÉE MOULE ENVELOPPE",
+      "description": "Préparation du moule d'enveloppe avec adaptation aux géométries variables et vérifications spécifiques aux finitions.",
+      
+      "questions": [
+        {
+          "ok": "Le moule est-il configuré pour la géométrie commandée (hauteur, largeur, épaisseur) ?",
+          "ko": "⚠️ Vérifier le bon de commande et ajuster configuration moule selon dimensions spécifiées"
+        },
+        {
+          "ok": "Les parois modulaires sont-elles correctement alignées et fixées ?",
+          "ko": "⚠️ Réaligner les parois modulaires - Vérifier planéité et perpendicularité avec équerre"
+        },
+        {
+          "ok": "Le système de manutention (ancrages levage) est-il en place et testé ?",
+          "ko": "⚠️ Installer et tester les ancrages de levage - Vérifier résistance 150% charge nominale"
+        },
+        {
+          "ok": "Les gabarits pour finitions (angles, rainures) sont-ils positionnés selon plan ?",
+          "ko": "⚠️ Positionner gabarits finitions selon plan détaillé - Vérifier côtes et alignement"
+        },
+        {
+          "ok": "L'huile de démoulage spéciale finitions est-elle appliquée uniformément ?",
+          "ko": "⚠️ Appliquer huile spéciale finitions - Film mince uniforme, pas de coulures"
+        },
+        {
+          "ok": "Les outils de compactage (aiguille vibrante, règle vibrante) sont-ils disponibles ?",
+          "ko": "⚠️ Vérifier disponibilité outils compactage - Tester fonctionnement avant coulage"
+        }
+      ],
+      
+      "CaptureSystem": {
+        "Utilisateur": "",
+        "Date": "",
+        "Time": "",
+        "GeometrieCommandee": "",
+        "ConfigurationMoule": "",
+        "TestManuention": false
+      },
+      
+      "ActionSystem": {
+        "Notification URRATS": "",
+        "ConfigurationAlert": false,
+        "TestSecurite": true
+      },
+      
+      "metadata": {
+        "step": 1,
+        "totalSteps": 14,
+        "estimatedDuration": "20-30 minutes",
+        "specialFeatures": ["géométrie variable", "manutention lourde", "finitions complexes"],
+        "requiredTools": ["équerre", "niveau", "ancrages levage", "gabarits finitions"],
+        "qualityLevel": "CRITIQUE"
+      }
+    },
+    
+    {
+      "Etat": "Etape 2",
+      "EtatNom": "PC2 : Ferraillage structural et manutention",
+      "Id_lisible_par_homme": "3002",
+      "TypeEtat": "PointControle",
+      "intro": "FERRAILLAGE SPÉCIALISÉ ENVELOPPE - STRUCTURE ET MANUTENTION",
+      "description": "Mise en place du ferraillage structural spécialisé pour enveloppes avec ferraillage de manutention renforcé.",
+      
+      "questions": [
+        {
+          "ok": "Le ferraillage principal vertical respecte-t-il l'espacement spécifié (20cm max) ?",
+          "ko": "⚠️ Réajuster espacement ferraillage vertical - Maximum 20cm entre barres principales"
+        },
+        {
+          "ok": "Les armatures de manutention (4 HA16 minimum) sont-elles positionnées et pliées correctement ?",
+          "ko": "⚠️ Repositionner armatures manutention - 4 HA16 mini avec cintrage selon plan"
+        },
+        {
+          "ok": "Le ferraillage des angles est-il renforcé avec épingles et cadres d'angle ?",
+          "ko": "⚠️ Ajouter renforcement d'angles - Épingles HA10 + cadres d'angle selon détail"
+        },
+        {
+          "ok": "Les cales d'enrobage sont-elles positionnées pour garantir 4cm minimum ?",
+          "ko": "⚠️ Repositionner cales enrobage - Garantir 4cm minimum sur toutes faces"
+        },
+        {
+          "ok": "Le ferraillage de répartition horizontale est-il continu sur toute la hauteur ?",
+          "ko": "⚠️ Compléter ferraillage répartition - Continuité obligatoire tous les 25cm"
+        },
+        {
+          "ok": "Tous les points de ligature sont-ils serrés et les barres stables ?",
+          "ko": "⚠️ Resserrer ligatures défaillantes - Test stabilité par vibration manuelle"
+        },
+        {
+          "ok": "Les passages techniques (électricité, plomberie) sont-ils réservés correctement ?",
+          "ko": "⚠️ Repositionner réservations techniques - Vérifier côtes et diamètres selon plan"
+        }
+      ],
+      
+      "CaptureSystem": {
+        "Utilisateur": "",
+        "Date": "",
+        "Time": "",
+        "PhotoFerraillage": true,
+        "TestStabilite": true,
+        "ControleDimensions": ""
+      },
+      
+      "ActionSystem": {
+        "Notification URRATS": "",
+        "QualityAlert": false,
+        "DocumentationPhoto": true
+      },
+      
+      "rebutTriggers": [
+        "enrobage_insuffisant_critique",
+        "armatures_manutention_absentes",
+        "instabilite_ferraillage"
+      ],
+      
+      "metadata": {
+        "step": 2,
+        "totalSteps": 14,
+        "estimatedDuration": "35-45 minutes",
+        "requiredTools": ["mètre", "cales 4cm", "fil fer", "pinces", "épingles HA10"],
+        "qualityLevel": "CRITIQUE",
+        "photoRequired": true,
+        "structuralCritical": true
+      }
+    },
+
+    {
+      "Etat": "Etape 3",
+      "EtatNom": "PA1 : Validation structurelle superviseur",
+      "Id_lisible_par_homme": "3003",
+      "TypeEtat": "PointArret",
+      "intro": "VALIDATION CRITIQUE - STRUCTURE ET MANUTENTION",
+      "description": "Validation superviseur obligatoire de la structure et des dispositifs de manutention avant coulage.",
+      
+      "supervisorValidation": {
+        "required": true,
+        "minRole": "SUPERVISEUR",
+        "structuralValidation": true,
+        "checklistItems": [
+          "Ferraillage principal conforme",
+          "Armatures manutention présentes et conformes",
+          "Enrobage garanti 4cm minimum",
+          "Renforcement angles effectué",
+          "Réservations techniques correctes"
+        ]
+      },
+      
+      "instructions": "VALIDATION STRUCTURELLE CRITIQUE - Le superviseur doit valider la conformité structurelle avant coulage.",
+      
+      "pointsAValider": [
+        "✓ Ferraillage principal vertical (espacement 20cm max)",
+        "✓ Armatures manutention 4 HA16 mini",
+        "✓ Renforcement angles avec épingles",
+        "✓ Enrobage 4cm garanti partout",
+        "✓ Réservations techniques conformes"
+      ],
+      
+      "CaptureSystem": {
+        "Utilisateur": "",
+        "Date": "",
+        "Time": "",
+        "SuperviseurStructural": "",
+        "ValidationManutention": true,
+        "CertificationStructurelle": ""
+      },
+      
+      "ActionSystem": {
+        "Notification URRATS": "",
+        "StructuralGate": true,
+        "SupervisorAlert": true
+      },
+      
+      "businessRules": {
+        "rules": [
+          {
+            "id": "validation_structurelle_enveloppe",
+            "name": "Validation Structurelle Enveloppe",
+            "condition": "supervisor_structural_validation",
+            "onSuccess": "navigate_to_step_3004",
+            "onFailure": "structural_correction_required"
+          }
+        ]
+      },
+      
+      "metadata": {
+        "step": 3,
+        "totalSteps": 14,
+        "estimatedDuration": "10-15 minutes",
+        "criticalPoint": true,
+        "supervisorRequired": true,
+        "structuralValidation": true,
+        "qualityLevel": "CRITIQUE"
+      }
+    },
+
+    {
+      "Etat": "Etape 4",
+      "EtatNom": "PC3 : Éléments spécialisés et finitions",
+      "Id_lisible_par_homme": "3004",
+      "TypeEtat": "PointControle",
+      "intro": "INSTALLATION ÉLÉMENTS SPÉCIALISÉS ET PRÉPARATION FINITIONS",
+      "description": "Mise en place des éléments spécialisés pour finitions et des dispositifs techniques intégrés.",
+      
+      "questions": [
+        {
+          "ok": "Les rails pour finitions rainurées sont-ils positionnés selon plan finition ?",
+          "ko": "⚠️ Repositionner rails finitions - Vérifier alignement et niveau selon plan détaillé"
+        },
+        {
+          "ok": "Les inserts pour fixation équipements sont-ils en place et orientés ?",
+          "ko": "⚠️ Installer inserts fixation - Vérifier position, orientation et profondeur"
+        },
+        {
+          "ok": "Les fourreaux pour passages techniques sont-ils étanches et fixés ?",
+          "ko": "⚠️ Vérifier étanchéité fourreaux - Reboucher fuites et renforcer fixation"
+        },
+        {
+          "ok": "Les gabarits pour texture de surface sont-ils correctement appliqués ?",
+          "ko": "⚠️ Repositionner gabarits texture - Appliquer selon échantillon validé"
+        },
+        {
+          "ok": "Tous les éléments rapportés sont-ils stables au test de vibration ?",
+          "ko": "⚠️ Renforcer fixation éléments instables - Test vibration obligatoire"
+        }
+      ],
+      
+      "CaptureSystem": {
+        "Utilisateur": "",
+        "Date": "",
+        "Time": "",
+        "PhotoElementsSpecialises": true,
+        "TestVibration": true,
+        "VerificationEtancheite": ""
+      },
+      
+      "ActionSystem": {
+        "Notification URRATS": "",
+        "QualityAlert": false,
+        "TestTechnique": true
+      },
+      
+      "metadata": {
+        "step": 4,
+        "totalSteps": 14,
+        "estimatedDuration": "25-35 minutes",
+        "specialFeatures": ["finitions complexes", "éléments rapportés"],
+        "qualityLevel": "IMPORTANT",
+        "testRequired": true
+      }
+    },
+
+    {
+      "Etat": "Etape 5",
+      "EtatNom": "PC4 : Contrôle pré-coulage complet",
+      "Id_lisible_par_homme": "3005",
+      "TypeEtat": "PointControle",
+      "intro": "CONTRÔLE FINAL AVANT COULAGE ENVELOPPE",
+      "description": "Vérifications finales spécialisées avant autorisation de coulage pour enveloppe complexe.",
+      
+      "questions": [
+        {
+          "ok": "La géométrie finale correspond-elle exactement aux spécifications client ?",
+          "ko": "⚠️ Vérifier géométrie avec gabarits - Correction obligatoire si écart > tolérance"
+        },
+        {
+          "ok": "Tous les systèmes de manutention sont-ils testés et opérationnels ?",
+          "ko": "⚠️ Tester tous ancrages manutention - Charge test 150% avant validation"
+        },
+        {
+          "ok": "L'étanchéité du moule est-elle parfaite (test pression si nécessaire) ?",
+          "ko": "⚠️ Test étanchéité complet - Colmater fuites ou renforcer joints défaillants"
+        },
+        {
+          "ok": "Le béton spécifié (autoplaçant/vibré) est-il disponible et conforme ?",
+          "ko": "⚠️ Vérifier spécifications béton - Contacter fournisseur si non-conformité"
+        },
+        {
+          "ok": "L'équipe spécialisée finitions est-elle présente et équipée ?",
+          "ko": "⚠️ Convoquer équipe finitions - Vérifier outillage spécialisé disponible"
+        }
+      ],
+      
+      "CaptureSystem": {
+        "Utilisateur": "",
+        "Date": "",
+        "Time": "",
+        "TestEtancheite": true,
+        "TestManutention": true,
+        "VerificationBeton": ""
+      },
+      
+      "ActionSystem": {
+        "Notification URRATS": "",
+        "AlerteCoulage": true,
+        "ValidationFinale": false
+      },
+      
+      "metadata": {
+        "step": 5,
+        "totalSteps": 14,
+        "estimatedDuration": "15-20 minutes",
+        "criticalPoint": true,
+        "testRequired": true,
+        "qualityLevel": "CRITIQUE"
+      }
+    },
+
+    {
+      "Etat": "Etape 6",
+      "EtatNom": "PC5 : Coulage spécialisé enveloppe",
+      "Id_lisible_par_homme": "3006",
+      "TypeEtat": "PointControle",
+      "intro": "COULAGE TECHNIQUE ENVELOPPE - FINITIONS INTÉGRÉES",
+      "description": "Exécution du coulage avec techniques spécialisées pour finitions et géométrie complexe.",
+      
+      "questions": [
+        {
+          "ok": "Le coulage respecte-t-il la séquence spécifiée (couches, zones) ?",
+          "ko": "⚠️ Arrêter et reprendre séquence coulage - Suivre plan de coulage spécialisé"
+        },
+        {
+          "ok": "La vibration/autoplaçant assure-t-elle un remplissage complet ?",
+          "ko": "⚠️ Ajuster technique compactage - Vibration adaptée ou autoplaçant selon zone"
+        },
+        {
+          "ok": "Les finitions de surface sont-elles réalisées pendant le coulage ?",
+          "ko": "⚠️ Reprendre finitions immédiatement - Texture surface selon échantillon"
+        },
+        {
+          "ok": "Aucun déplacement des éléments spécialisés n'est constaté ?",
+          "ko": "⚠️ ARRÊT IMMÉDIAT - Repositionner éléments avant poursuite coulage"
+        },
+        {
+          "ok": "Le niveau final et les tolérances géométriques sont-ils respectés ?",
+          "ko": "⚠️ Corriger niveau et géométrie - Vérifier tolérances avec gabarits"
+        }
+      ],
+      
+      "CaptureSystem": {
+        "Utilisateur": "",
+        "Date": "",
+        "Time": "",
+        "TechniqueCoulage": "",
+        "QualiteFinitions": "",
+        "TolerancesGeometriques": true
+      },
+      
+      "ActionSystem": {
+        "Notification URRATS": "",
+        "TracabiliteCoulage": true,
+        "QualityTracking": true
+      },
+      
+      "rebutTriggers": [
+        "deplacement_elements_critiques",
+        "finitions_ratees",
+        "tolerances_depassees"
+      ],
+      
+      "metadata": {
+        "step": 6,
+        "totalSteps": 14,
+        "estimatedDuration": "45-60 minutes",
+        "qualityLevel": "CRITIQUE",
+        "specializedTechnique": true,
+        "traceabilityRequired": true
+      }
+    },
+
+    {
+      "Etat": "Etape 7",
+      "EtatNom": "PC6 : Contrôle qualité post-coulage",
+      "Id_lisible_par_homme": "3007",
+      "TypeEtat": "PointControle",
+      "intro": "CONTRÔLE QUALITÉ POST-COULAGE SPÉCIALISÉ",
+      "description": "Vérifications qualité immédiates spécifiques aux enveloppes avec finitions intégrées.",
+      
+      "questions": [
+        {
+          "ok": "Les finitions de surface sont-elles conformes à l'échantillon validé ?",
+          "ko": "⚠️ Documenter écarts finitions - Évaluer possibilité correction ou acceptation"
+        },
+        {
+          "ok": "Les éléments spécialisés sont-ils toujours correctement positionnés ?",
+          "ko": "⚠️ Mesurer déplacements éléments - Évaluer impact fonctionnel"
+        },
+        {
+          "ok": "Aucun défaut de compactage n'est-il visible (nids d'abeilles) ?",
+          "ko": "⚠️ Localiser défauts compactage - Évaluer gravité et réparabilité"
+        },
+        {
+          "ok": "Les tolérances géométriques finales sont-elles dans la plage acceptable ?",
+          "ko": "⚠️ Mesurer écarts géométriques - Vérifier acceptabilité selon spécifications"
+        },
+        {
+          "ok": "Aucune fissuration de retrait précoce n'est-elle apparue ?",
+          "ko": "⚠️ Cartographier fissurations - Évaluer causes et impact structural"
+        }
+      ],
+      
+      "CaptureSystem": {
+        "Utilisateur": "",
+        "Date": "",
+        "Time": "",
+        "PhotoQualite": true,
+        "MesuresGeometriques": true,
+        "RapportDefauts": ""
+      },
+      
+      "ActionSystem": {
+        "Notification URRATS": "",
+        "QualityReport": true,
+        "DefautTracking": true
+      },
+      
+      "rebutTriggers": [
+        "defauts_compactage_majeurs",
+        "tolerances_geometriques_depassees",
+        "finitions_non_conformes"
+      ],
+      
+      "metadata": {
+        "step": 7,
+        "totalSteps": 14,
+        "estimatedDuration": "15-25 minutes",
+        "photoRequired": true,
+        "measurementsRequired": true,
+        "qualityLevel": "CRITIQUE"
+      }
+    },
+
+    {
+      "Etat": "Etape 8",
+      "EtatNom": "PA2 : Décision qualité superviseur",
+      "Id_lisible_par_homme": "3008",
+      "TypeEtat": "PointArret",
+      "intro": "DÉCISION QUALITÉ CRITIQUE - ACCEPTATION OU REBUT",
+      "description": "Décision superviseur sur la qualité de l'enveloppe coulée basée sur finitions et géométrie.",
+      
+      "supervisorValidation": {
+        "required": true,
+        "minRole": "SUPERVISEUR",
+        "qualityDecision": true,
+        "options": ["CONFORME", "RÉPARABLE", "REBUT"],
+        "evaluationCriteria": [
+          "Conformité finitions",
+          "Tolérances géométriques",
+          "Qualité compactage",
+          "Positionnement éléments spécialisés"
+        ]
+      },
+      
+      "instructions": "DÉCISION QUALITÉ CRITIQUE - Évaluation complète de la conformité de l'enveloppe.",
+      
+      "pointsAValider": [
+        "✓ Finitions conformes échantillon",
+        "✓ Géométrie dans tolérances",
+        "✓ Compactage sans défaut majeur",
+        "✓ Éléments spécialisés conformes",
+        "✓ Aucun défaut structurel"
+      ],
+      
+      "CaptureSystem": {
+        "Utilisateur": "",
+        "Date": "",
+        "Time": "",
+        "DecisionQualite": "",
+        "MotifDecision": "",
+        "PlanAction": ""
+      },
+      
+      "ActionSystem": {
+        "Notification URRATS": "",
+        "QualityGate": true,
+        "DecisionTracking": true
+      },
+      
+      "businessRules": {
+        "rules": [
+          {
+            "id": "decision_qualite_enveloppe",
+            "name": "Décision Qualité Enveloppe",
+            "condition": "supervisor_quality_decision",
+            "onConformeDecision": "navigate_to_step_3009",
+            "onReparableDecision": "navigate_to_repair_process",
+            "onRebutDecision": "navigate_to_rebut_999"
+          }
+        ]
+      },
+      
+      "metadata": {
+        "step": 8,
+        "totalSteps": 14,
+        "estimatedDuration": "15-20 minutes",
+        "criticalPoint": true,
+        "supervisorRequired": true,
+        "qualityGate": true,
+        "qualityLevel": "CRITIQUE"
+      }
+    },
+
+    {
+      "Etat": "Etape 9",
+      "EtatNom": "PC7 : Cure spécialisée et protection",
+      "Id_lisible_par_homme": "3009",
+      "TypeEtat": "PointControle",
+      "intro": "CURE ET PROTECTION SPÉCIALISÉES ENVELOPPE",
+      "description": "Organisation de la cure adaptée aux finitions et protection des éléments spécialisés.",
+      
+      "questions": [
+        {
+          "ok": "Le protocole de cure respecte-t-il les spécifications finitions ?",
+          "ko": "⚠️ Adapter protocole cure - Protection finitions et éléments spécialisés"
+        },
+        {
+          "ok": "Les éléments saillants et finitions sont-ils protégés mécaniquement ?",
+          "ko": "⚠️ Installer protection mécanique - Éviter chocs et détérioration"
+        },
+        {
+          "ok": "La température et hygrométrie sont-elles contrôlées selon spécifications ?",
+          "ko": "⚠️ Installer système climatique - Maintenir conditions optimales cure"
+        },
+        {
+          "ok": "Le planning de démoulage prend-il en compte la complexité géométrique ?",
+          "ko": "⚠️ Réviser planning démoulage - Prévoir temps et précautions supplémentaires"
+        }
+      ],
+      
+      "CaptureSystem": {
+        "Utilisateur": "",
+        "Date": "",
+        "Time": "",
+        "ProtocoleCure": "",
+        "ConditionsAmbiance": "",
+        "PlanningDemoulageSpecialise": ""
+      },
+      
+      "ActionSystem": {
+        "Notification URRATS": "",
+        "PlanificationSpecialisee": true
+      },
+      
+      "metadata": {
+        "step": 9,
+        "totalSteps": 14,
+        "estimatedDuration": "20-25 minutes",
+        "specializedProcess": true,
+        "qualityLevel": "IMPORTANT"
+      }
+    },
+
+    {
+      "Etat": "Etape 10",
+      "EtatNom": "PC8 : Démoulage technique spécialisé",
+      "Id_lisible_par_homme": "3010",
+      "TypeEtat": "PointControle",
+      "intro": "DÉMOULAGE TECHNIQUE - PRÉCAUTIONS SPÉCIALISÉES",
+      "description": "Démoulage avec précautions particulières pour géométrie complexe et finitions délicates.",
+      
+      "questions": [
+        {
+          "ok": "L'équipe de démoulage est-elle formée aux techniques spécialisées ?",
+          "ko": "⚠️ Former équipe techniques démoulage - Briefing sécurité et précautions"
+        },
+        {
+          "ok": "Les outils de démoulage appropriés sont-ils disponibles et contrôlés ?",
+          "ko": "⚠️ Vérifier outillage spécialisé - Matériel adapté finitions délicates"
+        },
+        {
+          "ok": "Le démoulage s'effectue-t-il selon la séquence technique spécifiée ?",
+          "ko": "⚠️ Reprendre séquence démoulage - Respecter ordre technique obligatoire"
+        },
+        {
+          "ok": "Les finitions et éléments spécialisés sont-ils préservés ?",
+          "ko": "⚠️ Arrêter si dégradation - Revoir technique démoulage si nécessaire"
+        },
+        {
+          "ok": "La manutention initiale teste-t-elle les points de levage ?",
+          "ko": "⚠️ Test progressif points levage - Charge réduite puis nominale"
+        }
+      ],
+      
+      "CaptureSystem": {
+        "Utilisateur": "",
+        "Date": "",
+        "Time": "",
+        "EquipeFormee": true,
+        "TestManutention": true,
+        "EtatFinitions": ""
+      },
+      
+      "ActionSystem": {
+        "Notification URRATS": "",
+        "SecurityProtocol": true,
+        "QualityPreservation": true
+      },
+      
+      "rebutTriggers": [
+        "degradation_finitions_critique",
+        "echec_manutention",
+        "rupture_elements"
+      ],
+      
+      "metadata": {
+        "step": 10,
+        "totalSteps": 14,
+        "estimatedDuration": "30-45 minutes",
+        "specializedTechnique": true,
+        "securityCritical": true,
+        "qualityLevel": "CRITIQUE"
+      }
+    },
+
+    {
+      "Etat": "Etape 11",
+      "EtatNom": "PC9 : Inspection dimensionnelle et finitions",
+      "Id_lisible_par_homme": "3011",
+      "TypeEtat": "PointControle",
+      "intro": "INSPECTION COMPLÈTE - DIMENSIONS ET FINITIONS",
+      "description": "Contrôle dimensionnel complet et inspection détaillée des finitions selon spécifications.",
+      
+      "questions": [
+        {
+          "ok": "Toutes les dimensions sont-elles conformes aux tolérances spécifiées ?",
+          "ko": "⚠️ Mesurer précisément écarts - Évaluer acceptabilité selon contrat"
+        },
+        {
+          "ok": "Les finitions de surface correspondent-elles à l'échantillon de référence ?",
+          "ko": "⚠️ Comparer avec échantillon - Documenter écarts et évaluer acceptabilité"
+        },
+        {
+          "ok": "Tous les éléments spécialisés sont-ils fonctionnels et accessibles ?",
+          "ko": "⚠️ Tester fonctionnalité éléments - Vérifier accessibilité maintenance"
+        },
+        {
+          "ok": "Les points de manutention sont-ils conformes et opérationnels ?",
+          "ko": "⚠️ Contrôler points manutention - Test charge selon procédure"
+        },
+        {
+          "ok": "Aucun défaut esthétique majeur n'affecte-t-il l'aspect final ?",
+          "ko": "⚠️ Cataloguer défauts esthétiques - Évaluer impact acceptabilité client"
+        },
+        {
+          "ok": "La documentation technique (photos, mesures) est-elle complète ?",
+          "ko": "⚠️ Compléter documentation - Photos HD toutes faces + mesures détaillées"
+        }
+      ],
+      
+      "CaptureSystem": {
+        "Utilisateur": "",
+        "Date": "",
+        "Time": "",
+        "MesuresCompletes": true,
+        "PhotosHauteDefinition": true,
+        "RapportConformite": "",
+        "TestsFonctionnels": true
+      },
+      
+      "ActionSystem": {
+        "Notification URRATS": "",
+        "QualityReport": true,
+        "TechnicalDocumentation": true
+      },
+      
+      "metadata": {
+        "step": 11,
+        "totalSteps": 14,
+        "estimatedDuration": "35-45 minutes",
+        "measurementsRequired": true,
+        "photoRequired": true,
+        "functionalTests": true,
+        "qualityLevel": "CRITIQUE"
+      }
+    },
+
+    {
+      "Etat": "Etape 12",
+      "EtatNom": "PA3 : Validation finale technique superviseur",
+      "Id_lisible_par_homme": "3012",
+      "TypeEtat": "PointArret",
+      "intro": "VALIDATION TECHNIQUE FINALE - ACCEPTATION DÉFINITIVE",
+      "description": "Validation finale superviseur technique pour acceptation définitive de l'enveloppe complexe.",
+      
+      "supervisorValidation": {
+        "required": true,
+        "minRole": "SUPERVISEUR",
+        "technicalValidation": true,
+        "finalAcceptance": true,
+        "options": ["ACCEPTER", "RETOUCHES MINEURES", "REBUT"],
+        "validationCriteria": [
+          "Conformité dimensionnelle",
+          "Qualité finitions",
+          "Fonctionnalité éléments spécialisés",
+          "Capacité manutention",
+          "Documentation complète"
+        ]
+      },
+      
+      "instructions": "VALIDATION TECHNIQUE FINALE - Acceptation définitive pour livraison client.",
+      
+      "pointsAValider": [
+        "✓ Conformité dimensionnelle totale",
+        "✓ Finitions selon échantillon référence",
+        "✓ Fonctionnalité tous éléments spécialisés",
+        "✓ Points manutention opérationnels",
+        "✓ Documentation technique complète",
+        "✓ Traçabilité process complète"
+      ],
+      
+      "CaptureSystem": {
+        "Utilisateur": "",
+        "Date": "",
+        "Time": "",
+        "SuperviseurTechnique": "",
+        "ValidationFinale": "",
+        "CertificationTechnique": true,
+        "AutorisationLivraison": false
+      },
+      
+      "ActionSystem": {
+        "Notification URRATS": "",
+        "TechnicalCertification": true,
+        "FinalValidation": true
+      },
+      
+      "businessRules": {
+        "rules": [
+          {
+            "id": "validation_finale_technique_enveloppe",
+            "name": "Validation Finale Technique Enveloppe",
+            "condition": "supervisor_technical_validation",
+            "onAcceptDecision": "navigate_to_step_3013",
+            "onRetouchesDecision": "navigate_to_retouches_process",
+            "onRebutDecision": "navigate_to_rebut_999"
+          }
+        ]
+      },
+      
+      "metadata": {
+        "step": 12,
+        "totalSteps": 14,
+        "estimatedDuration": "15-20 minutes",
+        "criticalPoint": true,
+        "supervisorRequired": true,
+        "technicalValidation": true,
+        "finalValidation": true,
+        "qualityLevel": "CRITIQUE"
+      }
+    },
+
+    {
+      "Etat": "Etape 13",
+      "EtatNom": "PC10 : Conditionnement et étiquetage spécialisé",
+      "Id_lisible_par_homme": "3013",
+      "TypeEtat": "PointControle",
+      "intro": "CONDITIONNEMENT ET PROTECTION SPÉCIALISÉS",
+      "description": "Conditionnement adapté aux finitions et préparation transport avec protections spécialisées.",
+      
+      "questions": [
+        {
+          "ok": "Les protections pour finitions sont-elles installées correctement ?",
+          "ko": "⚠️ Installer protections adaptées - Film plastique ou mousse selon finition"
+        },
+        {
+          "ok": "L'étiquetage technique complet est-il apposé et lisible ?",
+          "ko": "⚠️ Compléter étiquetage - QR code, poids, centre gravité, précautions"
+        },
+        {
+          "ok": "Les consignes de manutention spécialisées sont-elles visibles ?",
+          "ko": "⚠️ Apposer consignes manutention - Points levage, inclinaison max, précautions"
+        },
+        {
+          "ok": "La documentation client (plans, certificats) est-elle prête ?",
+          "ko": "⚠️ Finaliser documentation client - Plans conformité + certificats qualité"
+        }
+      ],
+      
+      "CaptureSystem": {
+        "Utilisateur": "",
+        "Date": "",
+        "Time": "",
+        "TypeProtection": "",
+        "DocumentationClient": true,
+        "EtiquetageComplete": true
+      },
+      
+      "ActionSystem": {
+        "Notification URRATS": "",
+        "PreparationLivraison": true
+      },
+      
+      "metadata": {
+        "step": 13,
+        "totalSteps": 14,
+        "estimatedDuration": "20-30 minutes",
+        "specializedPackaging": true,
+        "qualityLevel": "IMPORTANT"
+      }
+    },
+
+    {
+      "Etat": "Etape 14",
+      "EtatNom": "FINAL : Mise à disposition et archivage",
+      "Id_lisible_par_homme": "3014",
+      "TypeEtat": "Final",
+      "intro": "PROCESSUS TERMINÉ - ENVELOPPE SPÉCIALISÉE ACCEPTÉE",
+      "description": "Finalisation avec mise à disposition spécialisée et archivage complet de la documentation technique.",
+      
+      "questions": [
+        {
+          "ok": "L'enveloppe est-elle positionnée dans la zone de stockage adaptée ?",
+          "ko": "⚠️ Déplacer vers zone stockage spécialisée - Sol porteur et accès manutention"
+        },
+        {
+          "ok": "La traçabilité complète est-elle archivée et accessible ?",
+          "ko": "⚠️ Archiver traçabilité complète - Scanning documents + sauvegarde numérique"
+        },
+        {
+          "ok": "La planification livraison client est-elle coordonnée ?",
+          "ko": "⚠️ Coordonner livraison client - Transport spécialisé + équipe manutention"
+        },
+        {
+          "ok": "Le retour d'expérience process est-il documenté ?",
+          "ko": "⚠️ Documenter REX process - Améliorations et points d'attention futurs"
+        }
+      ],
+      
+      "CaptureSystem": {
+        "Utilisateur": "",
+        "Date": "",
+        "Time": "",
+        "ZoneStockageSpecialisee": "",
+        "PlanificationLivraison": "",
+        "RetourExperience": "",
+        "ArchivageComplete": true
+      },
+      
+      "ActionSystem": {
+        "Notification URRATS": "",
+        "ProcessComplete": true,
+        "ArchivageTechnique": true,
+        "RetourExperience": true
+      },
+      
+      "metadata": {
+        "step": 14,
+        "totalSteps": 14,
+        "estimatedDuration": "15-25 minutes",
+        "finalStep": true,
+        "specializedStorage": true,
+        "qualityLevel": "STANDARD"
+      }
+    }
+  ],
+  
+  "metadata": {
+    "version": "3.0.0",
+    "createdAt": "2025-09-04T10:45:00.000Z",
+    "updatedAt": "2025-09-04T10:45:00.000Z",
+    "author": "JSON-Driven Architecture System",
+    "description": "ProcessEnveloppe v3 enrichi - Questions métier spécialisées pour enveloppes complexes avec finitions et manutention lourde",
+    "tags": ["process-enveloppe", "enriched-json", "json-driven-architecture", "industrial", "v3", "specialized"],
+    "targetIndustry": "concrete_manufacturing",
+    "targetEnvironment": "workshop",
+    "targetDevice": "tablet_landscape",
+    "qualityStandards": ["ISO9001", "URRATS", "NF EN 13369"],
+    "certifications": ["Duhalde_Quality_Process_v3", "Specialized_Envelope_Process"],
+    "auditTrail": true,
+    "processSpecifics": {
+      "mouleType": "MouleEnveloppe",
+      "specialFeatures": [
+        "Géométrie variable adaptable",
+        "Manutention lourde sécurisée",
+        "Finitions surface complexes",
+        "Éléments techniques intégrés",
+        "Contrôles dimensionnels stricts",
+        "3 points arrêt superviseur spécialisés"
+      ],
+      "criticalControlPoints": ["PC2", "PA1", "PC5", "PA2", "PC8", "PC9", "PA3"],
+      "estimatedTotalDuration": "4-5 heures",
+      "urratsIntegration": true,
+      "specializedLevel": "PREMIUM",
+      "complexityLevel": "HIGH",
+      "handlingRequirements": "HEAVY_SPECIALIZED"
+    }
+  }
+}

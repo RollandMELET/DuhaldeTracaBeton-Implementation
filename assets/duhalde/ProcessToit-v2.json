@@ -1,0 +1,992 @@
+{
+  "_schema": {
+    "version": "1.0.0",
+    "type": "CompleteEnrichedProcess", 
+    "description": "Enriched JSON v2 process definition for ProcessToit - JSON-driven architecture",
+    "created": "2025-09-04T07:15:00.000Z",
+    "author": "JSON-Driven Architecture System"
+  },
+  
+  "processId": "ProcessToit",
+  "processType": "ProcessToit",
+  "processName": "Process de Fabrication Toit",
+  "processVersion": "2.0.0",
+  
+  "processConfig": {
+    "defaultRenderingStrategy": {
+      "responsive": {
+        "orientation": "landscape",
+        "targetResolution": "1280x800",
+        "minTouchTarget": 56,
+        "minFontSize": 18
+      },
+      "accessibility": {
+        "highContrast": false,
+        "largeFonts": true,
+        "hapticFeedback": true
+      }
+    },
+    "defaultUIMetadata": {
+      "environment": {
+        "type": "workshop",
+        "deviceType": "tablet_landscape",
+        "userContext": "gloved_hands",
+        "orientation": "landscape"
+      }
+    }
+  },
+  
+  "steps": [
+    {
+      "Etat": "Etape 1",
+      "EtatNom": "PC1 : VÉRIFICATION ÉTAPE INITIALE",
+      "Id_lisible_par_homme": "2001",
+      "TypeEtat": "PointControle",
+      "intro": "AVEZ VOUS PRÉPARÉ LE MOULE ?",
+      "questions": [
+        {
+          "ok": "Propreté générale du coffrage",
+          "ko": "Le moule est-il sale ?"
+        },
+        {
+          "ok": "Retirer les résidus de béton précédent",
+          "ko": "Reste-t-il des résidus de béton ?"
+        },
+        {
+          "ok": "État des joints d'étanchéité",
+          "ko": "Les joints d'étanchéité sont-ils en mauvais état ?"
+        },
+        {
+          "ok": "Contrôler les éléments du moule (Coffrage et sécurité)",
+          "ko": "Y a-t-il un problème avec les éléments du moule ?"
+        },
+        {
+          "ok": "Contrôler le système ouverture/fermeture",
+          "ko": "Y a-t-il un problème avec le système d'ouverture/fermeture ?"
+        }
+      ],
+      "CaptureSystem": {
+        "Utilisateur": "",
+        "Date": "",
+        "Time": ""
+      },
+      "ActionSystem": {
+        "Notification URRATS": ""
+      },
+      
+      "renderingStrategy": {
+        "screenType": "PointControleScreen",
+        "layout": "standard_verification",
+        "visual": {
+          "header": {
+            "title": "PC1 : VÉRIFICATION ÉTAPE INITIALE",
+            "subtitle": "Préparation du moule Toit",
+            "showProgress": true,
+            "progressStep": 1,
+            "progressTotal": 15
+          },
+          "icon": {
+            "name": "home-outline",
+            "size": 32,
+            "color": "#FF6B00"
+          }
+        },
+        "interaction": {
+          "confirmations": {
+            "requireConfirmation": true,
+            "confirmationMessage": "Confirmer que toutes les vérifications sont OK ?"
+          }
+        },
+        "components": {
+          "showHeader": true,
+          "showFooter": true,
+          "showProgressBar": true,
+          "showBackButton": false,
+          "showHelpButton": true,
+          "showLogoutButton": true
+        },
+        "responsive": {
+          "orientation": "landscape",
+          "targetResolution": "1280x800",
+          "minTouchTarget": 56,
+          "minFontSize": 18
+        },
+        "accessibility": {
+          "highContrast": false,
+          "largeFonts": true,
+          "hapticFeedback": true,
+          "gestureAlternatives": true
+        }
+      },
+      
+      "businessRules": {
+        "rules": [
+          {
+            "id": "all_questions_ok_toit",
+            "name": "All Questions Must Be OK - Toit",
+            "description": "All verification questions must be answered OK to proceed",
+            "triggers": {
+              "onUserAction": ["validate_step"]
+            },
+            "condition": {
+              "id": "all_ok_condition",
+              "type": "field_value",
+              "fieldName": "validation_result",
+              "operator": "equals",
+              "expectedValue": "all_ok"
+            },
+            "actionsOnTrue": [
+              {
+                "id": "proceed_next",
+                "type": "navigate_to_step",
+                "targetStepId": "2002"
+              }
+            ],
+            "actionsOnFalse": [
+              {
+                "id": "show_ko_warning",
+                "type": "show_message",
+                "message": "Certaines vérifications sont KO. Veuillez corriger avant de continuer ou contacter un superviseur.",
+                "messageType": "warning",
+                "requireAcknowledgment": true
+              }
+            ],
+            "priority": 100,
+            "enabled": true,
+            "evaluation": {
+              "continueOnError": false
+            }
+          }
+        ],
+        "qualityRules": [
+          {
+            "id": "moule_toit_quality_check",
+            "name": "Moule Toit Quality Verification",
+            "category": "quality",
+            "triggers": {
+              "onUserAction": ["validate_step"]
+            },
+            "condition": {
+              "id": "any_ko_detected",
+              "type": "field_value",
+              "fieldName": "has_ko_answers",
+              "operator": "equals",
+              "expectedValue": true
+            },
+            "actionsOnTrue": [
+              {
+                "id": "urrats_notification",
+                "type": "trigger_notification",
+                "notificationType": "URRATS",
+                "message": "PC1 ProcessToit - Problème détecté lors de la préparation du moule Toit",
+                "urgency": "medium"
+              }
+            ],
+            "priority": 200,
+            "enabled": true,
+            "evaluation": {
+              "continueOnError": true
+            },
+            "qualityMetrics": {
+              "criticalityLevel": "MEDIUM"
+            },
+            "rebutHandling": {
+              "requireSupervisorConfirmation": true,
+              "urraitsNotification": true
+            }
+          }
+        ],
+        "globalSettings": {
+          "evaluationMode": "immediate",
+          "errorHandling": "continue_on_error",
+          "logLevel": "info"
+        },
+        "context": {
+          "processId": "ProcessToit",
+          "processType": "ProcessToit",
+          "stepId": "2001",
+          "environmentType": "production"
+        }
+      },
+      
+      "navigation": {
+        "stepId": "2001",
+        "processId": "ProcessToit",
+        "primaryNavigation": {
+          "type": "conditional",
+          "conditional": {
+            "id": "pc1_toit_completion",
+            "condition": {
+              "id": "all_verifications_ok",
+              "type": "field_value",
+              "fieldName": "validation_result",
+              "operator": "equals",
+              "expectedValue": "all_ok"
+            },
+            "targetOnTrue": {
+              "id": "next_step",
+              "type": "step",
+              "stepId": "2002",
+              "mode": "push",
+              "transition": {
+                "animation": "slide",
+                "duration": 300,
+                "direction": "left"
+              }
+            },
+            "targetOnFalse": {
+              "id": "stay_current",
+              "type": "step", 
+              "stepId": "2001",
+              "mode": "replace"
+            },
+            "evaluation": {
+              "evaluateOnce": false,
+              "reevaluateOnChange": true
+            }
+          }
+        },
+        "context": {
+          "processType": "ProcessToit"
+        }
+      },
+      
+      "uiMetadata": {
+        "environment": {
+          "type": "workshop",
+          "deviceType": "tablet_landscape", 
+          "userContext": "gloved_hands",
+          "orientation": "landscape"
+        },
+        "components": {
+          "header": {
+            "showLogo": true,
+            "showTitle": true,
+            "showSubtitle": true,
+            "showProgress": true,
+            "height": 80,
+            "backgroundColor": "#FFFFFF",
+            "textColor": "#1F2937"
+          }
+        }
+      },
+      
+      "validation": {
+        "stepId": "2001",
+        "processId": "ProcessToit",
+        "processType": "ProcessToit",
+        "fields": [
+          {
+            "fieldName": "question_responses",
+            "displayName": "Réponses aux vérifications",
+            "rules": [
+              {
+                "id": "all_questions_answered",
+                "type": "required",
+                "severity": "error",
+                "timing": "onSubmit",
+                "message": "Toutes les vérifications doivent être répondues (OK ou KO).",
+                "enabled": true,
+                "required": true,
+                "settings": {
+                  "allowEmpty": false,
+                  "allowWhitespace": false
+                }
+              }
+            ]
+          }
+        ],
+        "qualityControl": [
+          {
+            "id": "moule_toit_preparation_quality",
+            "type": "business_logic",
+            "severity": "warning",
+            "timing": "onSubmit",
+            "message": "Contrôles qualité de préparation du moule Toit",
+            "enabled": true,
+            "required": false,
+            "qualitySettings": {
+              "processType": "ProcessToit",
+              "controlType": "visual",
+              "visualInspection": {
+                "requiredPhotos": 0,
+                "requiredViews": ["general", "joints", "ouverture"]
+              },
+              "structuralChecks": {
+                "reinforcement": false,
+                "formwork": true,
+                "surface": true,
+                "dimensions": false
+              }
+            }
+          }
+        ],
+        "context": {
+          "userRole": "OPERATEUR",
+          "environmentType": "production"
+        }
+      },
+      
+      "metadata": {
+        "version": "2.0.0",
+        "createdAt": "2025-09-04T07:15:00.000Z",
+        "updatedAt": "2025-09-04T07:15:00.000Z",
+        "author": "JSON-Driven Architecture",
+        "description": "PC1 Vérification étape initiale - Préparation du moule pour ProcessToit",
+        "tags": ["point-controle", "preparation", "moule", "toit"]
+      }
+    },
+    
+    {
+      "Etat": "Etape 2",
+      "EtatNom": "PC2 : VÉRIFICATION ACIER",
+      "Id_lisible_par_homme": "2002", 
+      "TypeEtat": "PointControle",
+      "intro": "AVEZ-VOUS PLACÉ LES ACIERS SUIVANT PLAN ?",
+      "questions": [
+        {
+          "ok": "Conforme au plan",
+          "ko": "Non conforme au plan ?"
+        }
+      ],
+      "CaptureSystem": {
+        "Utilisateur": "",
+        "Date": "",
+        "Time": ""
+      },
+      "ActionSystem": {
+        "Notification URRATS": ""
+      },
+      
+      "renderingStrategy": {
+        "screenType": "PointControleScreen",
+        "layout": "acier_verification",
+        "visual": {
+          "header": {
+            "title": "PC2 : VÉRIFICATION ACIER",
+            "subtitle": "Vérification placement des aciers - Toit",
+            "showProgress": true,
+            "progressStep": 2,
+            "progressTotal": 15
+          },
+          "icon": {
+            "name": "construct-outline",
+            "size": 32,
+            "color": "#FF6B00"
+          }
+        },
+        "interaction": {
+          "confirmations": {
+            "requireConfirmation": true,
+            "confirmationMessage": "Confirmer que le placement des aciers est conforme au plan ?"
+          }
+        },
+        "components": {
+          "showBackButton": true
+        }
+      },
+      
+      "businessRules": {
+        "rules": [
+          {
+            "id": "acier_conformity_check_toit",
+            "name": "Steel Conformity Check - Toit", 
+            "description": "Check steel placement conformity to plan for Toit",
+            "triggers": {
+              "onUserAction": ["validate_step"]
+            },
+            "condition": {
+              "id": "acier_ok",
+              "type": "field_value",
+              "fieldName": "acier_conforme",
+              "operator": "equals",
+              "expectedValue": "ok"
+            },
+            "actionsOnTrue": [
+              {
+                "id": "proceed_pc3_toit",
+                "type": "navigate_to_step",
+                "targetStepId": "2003"
+              }
+            ],
+            "actionsOnFalse": [
+              {
+                "id": "acier_ko_warning",
+                "type": "show_message",
+                "message": "Placement des aciers non conforme au plan. Correction nécessaire.",
+                "messageType": "error",
+                "requireAcknowledgment": true
+              },
+              {
+                "id": "urrats_acier_alert_toit",
+                "type": "trigger_notification",
+                "notificationType": "URRATS",
+                "message": "PC2 ProcessToit - Aciers non conformes au plan",
+                "urgency": "high"
+              }
+            ],
+            "priority": 100,
+            "enabled": true,
+            "evaluation": {
+              "continueOnError": false
+            }
+          }
+        ],
+        "context": {
+          "processId": "ProcessToit",
+          "processType": "ProcessToit",
+          "stepId": "2002"
+        }
+      },
+      
+      "navigation": {
+        "stepId": "2002",
+        "processId": "ProcessToit",
+        "primaryNavigation": {
+          "type": "conditional",
+          "conditional": {
+            "condition": {
+              "id": "acier_conforme_check",
+              "type": "field_value",
+              "fieldName": "acier_conforme",
+              "operator": "equals",
+              "expectedValue": "ok"
+            },
+            "targetOnTrue": {
+              "type": "step",
+              "stepId": "2003",
+              "mode": "push"
+            },
+            "targetOnFalse": {
+              "type": "step",
+              "stepId": "2002",
+              "mode": "replace"
+            }
+          }
+        },
+        "history": {
+          "backButton": {
+            "enabled": true,
+            "target": {
+              "type": "step",
+              "stepId": "2001",
+              "mode": "pop"
+            }
+          }
+        }
+      },
+      
+      "validation": {
+        "stepId": "2002",
+        "processId": "ProcessToit",
+        "processType": "ProcessToit",
+        "fields": [
+          {
+            "fieldName": "acier_conforme",
+            "displayName": "Conformité des aciers",
+            "rules": [
+              {
+                "id": "acier_response_required",
+                "type": "required",
+                "severity": "error",
+                "timing": "onSubmit",
+                "message": "Vous devez indiquer si les aciers sont conformes au plan.",
+                "enabled": true,
+                "required": true
+              }
+            ]
+          }
+        ]
+      },
+      
+      "metadata": {
+        "version": "2.0.0",
+        "createdAt": "2025-09-04T07:15:00.000Z",
+        "updatedAt": "2025-09-04T07:15:00.000Z",
+        "author": "JSON-Driven Architecture",
+        "description": "PC2 Vérification acier - Contrôle placement des aciers selon plan pour Toit",
+        "tags": ["point-controle", "acier", "structural", "toit"]
+      }
+    },
+
+    {
+      "Etat": "Etape 3",
+      "EtatNom": "PC3 : VÉRIFICATION FERRAILLAGE ET INSERT",
+      "Id_lisible_par_homme": "2003",
+      "TypeEtat": "PointControle",
+      "intro": "AVEZ-VOUS PLACÉ LE FERRAILLAGE ET LES INSERTS ?",
+      "questions": [
+        {
+          "ok": "Huile de décoffrage appliquée",
+          "ko": "Pas d'huile de décoffrage ?"
+        },
+        {
+          "ok": "4 X Inserts de 12 : Position et fixation conformes",
+          "ko": "Position ou fixation des 4 inserts de 12 non conforme ?"
+        },
+        {
+          "ok": "Ferraillage suivant plan",
+          "ko": "Ferraillage non conforme au plan ?"
+        },
+        {
+          "ok": "Cales d'enrobage selon plan",
+          "ko": "Cales d'enrobage non conformes au plan ?"
+        },
+        {
+          "ok": "4 X renforts douilles en place",
+          "ko": "4 X renforts douilles absents ou mal positionnés ?"
+        }
+      ],
+      "CaptureSystem": {
+        "Utilisateur": "",
+        "Date": "",
+        "Time": ""
+      },
+      "ActionSystem": {
+        "Notification URRATS": ""
+      },
+      
+      "renderingStrategy": {
+        "screenType": "PointControleScreen",
+        "layout": "ferraillage_verification",
+        "visual": {
+          "header": {
+            "title": "PC3 : VÉRIFICATION FERRAILLAGE ET INSERT",
+            "subtitle": "Contrôle ferraillage et inserts - Toit",
+            "showProgress": true,
+            "progressStep": 3,
+            "progressTotal": 15
+          },
+          "icon": {
+            "name": "hammer-outline",
+            "size": 32,
+            "color": "#FF6B00"
+          }
+        }
+      },
+      
+      "businessRules": {
+        "rules": [
+          {
+            "id": "ferraillage_toit_check",
+            "name": "Ferraillage Toit Check",
+            "description": "Verify reinforcement and inserts for Toit process",
+            "triggers": {
+              "onUserAction": ["validate_step"]
+            },
+            "condition": {
+              "id": "all_ferraillage_ok",
+              "type": "field_value",
+              "fieldName": "validation_result",
+              "operator": "equals",
+              "expectedValue": "all_ok"
+            },
+            "actionsOnTrue": [
+              {
+                "id": "proceed_pc4_toit",
+                "type": "navigate_to_step",
+                "targetStepId": "2004"
+              }
+            ],
+            "actionsOnFalse": [
+              {
+                "id": "ferraillage_ko_warning",
+                "type": "show_message",
+                "message": "Problème détecté avec le ferraillage ou les inserts. Vérification nécessaire.",
+                "messageType": "warning",
+                "requireAcknowledgment": true
+              }
+            ]
+          }
+        ],
+        "qualityRules": [
+          {
+            "id": "inserts_toit_quality",
+            "name": "Inserts Toit Quality Control",
+            "category": "quality",
+            "triggers": {
+              "onUserAction": ["validate_step"]
+            },
+            "condition": {
+              "id": "inserts_ko_detected",
+              "type": "contains_ko",
+              "fieldPatterns": ["inserts", "douilles", "ferraillage"]
+            },
+            "actionsOnTrue": [
+              {
+                "id": "urrats_inserts_toit",
+                "type": "trigger_notification",
+                "notificationType": "URRATS",
+                "message": "PC3 ProcessToit - Problème inserts ou ferraillage détecté",
+                "urgency": "high"
+              }
+            ],
+            "qualityMetrics": {
+              "criticalityLevel": "HIGH"
+            }
+          }
+        ],
+        "context": {
+          "processId": "ProcessToit",
+          "processType": "ProcessToit",
+          "stepId": "2003"
+        }
+      },
+      
+      "navigation": {
+        "stepId": "2003",
+        "processId": "ProcessToit",
+        "primaryNavigation": {
+          "type": "conditional",
+          "conditional": {
+            "condition": {
+              "type": "field_value",
+              "fieldName": "validation_result",
+              "operator": "equals",
+              "expectedValue": "all_ok"
+            },
+            "targetOnTrue": {
+              "type": "step",
+              "stepId": "2004",
+              "mode": "push"
+            }
+          }
+        }
+      },
+      
+      "metadata": {
+        "version": "2.0.0",
+        "author": "JSON-Driven Architecture",
+        "description": "PC3 Vérification ferraillage et inserts - Toit spécifique avec 4 inserts de 12 et renforts douilles",
+        "tags": ["point-controle", "ferraillage", "inserts", "toit"]
+      }
+    },
+
+    {
+      "Etat": "Etape 8", 
+      "EtatNom": "PA1 : VALIDATION AVANT DEGRAISSAGE",
+      "Id_lisible_par_homme": "2008",
+      "TypeEtat": "PointArret",
+      "intro": "Uniquement si suspicion de rebut à l'Etape 7",
+      "questions": null,
+      "CaptureSystem": {
+        "Utilisateur": "",
+        "_Utilisateur_role_requirement": "doit être un role supérieur à opérateur",
+        "Date": "",
+        "Time": ""
+      },
+      "CaptureUser": {
+        "CONFORME ?": "",
+        "_CONFORME_notes": "OUI ou REBUT",
+        "Observation ?": "",
+        "_Observation_type": "String",
+        "_CaptureUser_values": [
+          {
+            "field": "CONFORME ?",
+            "options": ["OUI", "REBUT"]
+          }
+        ],
+        "_flow_logic": [
+          "Si 'CONFORME ?' = REBUT ALORS Pièce courante devient Etat REBUT",
+          "Si 'CONFORME ?' = OUI ALORS Etape 9"
+        ]
+      },
+      "ActionSystem": {
+        "Notification URRATS": ""
+      },
+      
+      "renderingStrategy": {
+        "screenType": "PointArretScreen",
+        "layout": "supervisor_validation",
+        "visual": {
+          "header": {
+            "title": "PA1 : VALIDATION AVANT DEGRAISSAGE",
+            "subtitle": "⚠️ Authentification superviseur requise - Toit",
+            "showProgress": true,
+            "progressStep": 8,
+            "progressTotal": 15
+          },
+          "colorScheme": {
+            "primary": "#DC2626",
+            "accent": "#FFA500"
+          },
+          "icon": {
+            "name": "shield-checkmark-outline",
+            "size": 40,
+            "color": "#DC2626"
+          }
+        },
+        "interaction": {
+          "confirmations": {
+            "requireConfirmation": true,
+            "doubleConfirm": true,
+            "confirmationMessage": "Confirmer la validation superviseur pour cette étape critique ?"
+          },
+          "timeout": {
+            "enabled": true,
+            "duration": 300000,
+            "warningAt": 240000,
+            "timeoutAction": "logout"
+          }
+        },
+        "responsive": {
+          "minTouchTarget": 64,
+          "minFontSize": 20
+        },
+        "accessibility": {
+          "highContrast": true
+        }
+      },
+      
+      "businessRules": {
+        "rules": [
+          {
+            "id": "supervisor_authentication_required_toit",
+            "name": "Supervisor Authentication Required - Toit",
+            "description": "PA1 requires supervisor role or higher for Toit process",
+            "triggers": {
+              "onScreenLoad": true
+            },
+            "condition": {
+              "id": "supervisor_role_check",
+              "type": "user_role",
+              "requiredRole": "SUPERVISEUR",
+              "allowHigherRoles": true
+            },
+            "actionsOnTrue": [
+              {
+                "id": "enable_pa1_form",
+                "type": "set_field_value",
+                "fieldName": "supervisor_authenticated",
+                "value": true
+              }
+            ],
+            "actionsOnFalse": [
+              {
+                "id": "block_pa1_access",
+                "type": "show_message",
+                "message": "Authentification superviseur requise pour accéder à PA1 - ProcessToit.",
+                "messageType": "error",
+                "requireAcknowledgment": true
+              }
+            ],
+            "priority": 500,
+            "enabled": true
+          },
+          {
+            "id": "pa1_toit_decision_logic",
+            "name": "PA1 Toit Decision Logic",
+            "description": "Handle PA1 branching logic for Toit process",
+            "triggers": {
+              "onUserAction": ["validate_decision"]
+            },
+            "condition": {
+              "id": "conforme_check_toit",
+              "type": "field_value",
+              "fieldName": "CONFORME",
+              "operator": "equals",
+              "expectedValue": "OUI"
+            },
+            "actionsOnTrue": [
+              {
+                "id": "proceed_to_degraissage_toit",
+                "type": "navigate_to_step",
+                "targetStepId": "2009"
+              }
+            ],
+            "actionsOnFalse": [
+              {
+                "id": "handle_rebut_toit",
+                "type": "navigate_to_step",
+                "targetStepId": "999"
+              },
+              {
+                "id": "rebut_urrats_notification_toit",
+                "type": "trigger_notification",
+                "notificationType": "URRATS",
+                "message": "PA1 ProcessToit - Pièce mise au REBUT par superviseur",
+                "urgency": "critical"
+              }
+            ],
+            "priority": 300,
+            "enabled": true
+          }
+        ],
+        "urratsRules": [
+          {
+            "id": "pa1_rebut_urrats_toit",
+            "name": "PA1 REBUT URRATS Notification - Toit",
+            "category": "urrats",
+            "triggers": {
+              "onFieldChange": ["CONFORME"]
+            },
+            "condition": {
+              "id": "rebut_selected",
+              "type": "field_value",
+              "fieldName": "CONFORME",
+              "operator": "equals",
+              "expectedValue": "REBUT"
+            },
+            "actionsOnTrue": [
+              {
+                "id": "immediate_urrats_toit",
+                "type": "trigger_notification",
+                "notificationType": "URRATS",
+                "message": "REBUT PA1 ProcessToit - Validation superviseur négative",
+                "urgency": "critical"
+              }
+            ],
+            "urgency": "CRITICAL",
+            "escalationLevel": 3,
+            "notification": {
+              "immediate": true,
+              "channels": ["email", "system", "dashboard"],
+              "recipients": {
+                "supervisors": true,
+                "qualityTeam": true
+              }
+            }
+          }
+        ],
+        "context": {
+          "processId": "ProcessToit",
+          "processType": "ProcessToit",
+          "stepId": "2008",
+          "userRole": "SUPERVISEUR"
+        }
+      },
+      
+      "navigation": {
+        "stepId": "2008",
+        "processId": "ProcessToit",
+        "primaryNavigation": {
+          "type": "branching",
+          "branching": {
+            "id": "pa1_toit_decision_branches",
+            "branches": [
+              {
+                "id": "rebut_branch_toit",
+                "name": "REBUT",
+                "condition": {
+                  "type": "field_value",
+                  "fieldName": "CONFORME",
+                  "operator": "equals",
+                  "expectedValue": "REBUT"
+                },
+                "target": {
+                  "type": "step",
+                  "stepId": "999",
+                  "mode": "push"
+                },
+                "priority": 100
+              },
+              {
+                "id": "continue_process_toit",
+                "name": "Continuer Process",
+                "condition": {
+                  "type": "field_value",
+                  "fieldName": "CONFORME",
+                  "operator": "equals",
+                  "expectedValue": "OUI"
+                },
+                "target": {
+                  "type": "step",
+                  "stepId": "2009",
+                  "mode": "push"
+                },
+                "priority": 200
+              }
+            ],
+            "behavior": {
+              "requireExplicitChoice": true
+            }
+          }
+        },
+        "context": {
+          "userRole": "SUPERVISEUR",
+          "processType": "ProcessToit"
+        }
+      },
+      
+      "validation": {
+        "stepId": "2008",
+        "processId": "ProcessToit",
+        "processType": "ProcessToit",
+        "fields": [
+          {
+            "fieldName": "supervisor_authentication",
+            "displayName": "Authentification superviseur",
+            "rules": [
+              {
+                "id": "supervisor_auth_check",
+                "type": "external",
+                "severity": "error",
+                "timing": "onSubmit",
+                "message": "Authentification superviseur requise.",
+                "enabled": true,
+                "required": true,
+                "settings": {
+                  "apiEndpoint": "/api/auth/validate-supervisor",
+                  "method": "POST",
+                  "payload": {
+                    "stepId": "2008",
+                    "processType": "ProcessToit",
+                    "requiredRole": "SUPERVISEUR"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "fieldName": "CONFORME",
+            "displayName": "Conformité de la pièce",
+            "rules": [
+              {
+                "id": "conformity_decision_required",
+                "type": "required",
+                "severity": "error",
+                "timing": "onSubmit",
+                "message": "Vous devez indiquer si la pièce est conforme (OUI ou REBUT).",
+                "enabled": true,
+                "required": true
+              }
+            ]
+          }
+        ]
+      },
+      
+      "metadata": {
+        "version": "2.0.0",
+        "author": "JSON-Driven Architecture",
+        "description": "PA1 Validation superviseur avant dégraissage - Point d'arrêt critique pour ProcessToit",
+        "tags": ["point-arret", "supervisor", "validation", "toit"]
+      }
+    }
+  ],
+  
+  "metadata": {
+    "version": "2.0.0",
+    "createdAt": "2025-09-04T07:15:00.000Z",
+    "updatedAt": "2025-09-04T07:15:00.000Z",
+    "author": "JSON-Driven Architecture System",
+    "description": "Enriched ProcessToit v2 - Complete JSON-driven process definition for Toit manufacturing with specialized steps",
+    "tags": ["process-toit", "enriched-json", "json-driven-architecture", "industrial"],
+    "targetIndustry": "concrete_manufacturing",
+    "targetEnvironment": "workshop",
+    "targetDevice": "tablet_landscape",
+    "qualityStandards": ["ISO9001", "URRATS"],
+    "certifications": ["Duhalde_Quality_Process_v2"],
+    "auditTrail": true,
+    "processSpecifics": {
+      "mouleType": "MouleToit",
+      "specialFeatures": [
+        "4 inserts de 12 avec renforts douilles",
+        "Douilles de levage 16 INOX",
+        "Système peinture 2 couches",
+        "Validation superviseur spécialisée"
+      ],
+      "criticalControlPoints": ["PC3", "PA1", "PA2", "PA3"],
+      "urratsIntegration": true
+    }
+  }
+}
